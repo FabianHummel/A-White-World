@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "TDl8dZrug3Os3Geswe9M4Ua3BvZvB/W9ykUISaO34SNtYQx3vv7OTF8YWvj3KfDllZ3vCQM4iUi9mxZIGPZi8A==",
+  "success": true,
+  "projectFilePath": "/Users/fabian/Documents/Projects/CSharp/White World/White World.csproj",
+  "expectedPackageFiles": [
+    "/Users/fabian/.nuget/packages/microsoft.toolkit.highperformance/7.1.2/microsoft.toolkit.highperformance.7.1.2.nupkg.sha512",
+    "/Users/fabian/.nuget/packages/raylib-cslo/4.0.1/raylib-cslo.4.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

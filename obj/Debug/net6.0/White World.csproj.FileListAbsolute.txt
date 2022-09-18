@@ -1,0 +1,86 @@
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/White World
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/White World.deps.json
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/White World.runtimeconfig.json
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/White World.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/White World.pdb
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.csproj.AssemblyReference.cache
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.GeneratedMSBuildEditorConfig.editorconfig
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.AssemblyInfoInputs.cache
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.AssemblyInfo.cs
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.csproj.CoreCompileInputs.cache
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/ref/White World.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.pdb
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.genruntimeconfig.cache
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/Microsoft.Toolkit.HighPerformance.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/Raylib-CsLo.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/linux-x64/native/libraylib.so
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/osx-x64/native/libraylib-no-extras.dylib
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/osx-x64/native/libraylib.dylib
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x64/native/raylib.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x64/native/raylib.pdb
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/physac.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/physac.pdb
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/raygui.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/raygui.pdb
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/raylib.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/raylib.pdb
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/White World.csproj.CopyComplete
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/obj/Debug/net6.0/refint/White World.dll
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/.DS_Store
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/fonts/BitMirror.ttf
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/.DS_Store
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/ambient/seashore.wav
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/music/seashore-waves.wav
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-1.wav
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-2.wav
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-3.wav
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/shaders/curtain.fs
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore-intro-guy.gif
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/images/.DS_Store
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore-intro-sea.gif
+/Users/fabian/Documents/Schule/2 AHIF/POS/ - Projects/CSharp/White World/bin/Debug/net6.0/assets/images/dialogue-box.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/White World
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/.DS_Store
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/fonts/BitMirror.ttf
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/.DS_Store
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/dialogue-box.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore-intro-guy.gif
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore-intro-sea.gif
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/shaders/curtain.fs
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/.DS_Store
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/ambient/seashore.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/music/seashore-waves.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-1.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-2.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-3.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/White World.deps.json
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/White World.runtimeconfig.json
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/White World.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/White World.pdb
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/Microsoft.Toolkit.HighPerformance.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/Raylib-CsLo.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/linux-x64/native/libraylib.so
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/osx-x64/native/libraylib-no-extras.dylib
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/osx-x64/native/libraylib.dylib
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x64/native/raylib.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x64/native/raylib.pdb
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/physac.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/physac.pdb
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/raygui.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/raygui.pdb
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/raylib.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/runtimes/win-x86/native/raylib.pdb
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.csproj.AssemblyReference.cache
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.GeneratedMSBuildEditorConfig.editorconfig
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.AssemblyInfoInputs.cache
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.AssemblyInfo.cs
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.csproj.CoreCompileInputs.cache
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.csproj.CopyComplete
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.dll
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/refint/White World.dll
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.pdb
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.genruntimeconfig.cache
+/Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/ref/White World.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/dialogue/dialogue-pop-1.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/dialogue/dialogue-pop-2.wav
