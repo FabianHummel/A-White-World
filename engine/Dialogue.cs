@@ -148,9 +148,9 @@ public static partial class Engine {
     }
 
     private static void DrawDialogue() {
-        DrawImage("Dialogue Box", 0, -5, Align.Center, Align.End);
+        DrawUiImage("Dialogue Box", 0, -5, Align.Center, Align.End);
         
-        DrawText(
+        DrawUiText(
             _dialogueText,
             -_dialogueBoxWidth / 2 + 7,
             -_dialogueBoxHeight + 2,
@@ -161,7 +161,7 @@ public static partial class Engine {
         );
         
         var len = GetTextLength(TitleFont, _currentDialogue!.Title, 28);
-        DrawRectangle(
+        DrawUiRectangle(
             -_dialogueBoxWidth / 2 + 10 - 2,
             -_dialogueBoxHeight - 5,
             (int) len.X / PixelSize + 4,
@@ -171,7 +171,7 @@ public static partial class Engine {
             Align.End
         );
         
-        DrawText(
+        DrawUiText(
             _currentDialogue!.Title,
             -_dialogueBoxWidth / 2 + 10,
             -_dialogueBoxHeight - 5,

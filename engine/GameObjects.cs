@@ -32,7 +32,11 @@ public static partial class Engine {
     }
 
     public static GameObject GetGameObject(string name) {
-        return GameObjects[name].item;
+        if (GameObjects.TryGetValue(name, out var gameObject)) {
+            return gameObject.item;
+        }
+        GameObjectLogger.Error($"Could not find game object {name}");
+        return default!;
     }
     
     public static void DumpGameObjects() {

@@ -5,7 +5,7 @@ using Transform = WhiteWorld.engine.scripts.Transform;
 
 namespace WhiteWorld.engine.intro; 
 
-public class ContinueText : IGameScript {
+public class ContinueText : GameScript {
 
     private readonly string _text;
     private Transform _transform = null!;
@@ -26,7 +26,7 @@ public class ContinueText : IGameScript {
     }
 
     public override void OnUpdate() {
-        Engine.DrawTextCentered(_text, _transform.X, _transform.Y, 28, _textColor, Engine.Align.Center, Engine.Align.Center);
+        Engine.DrawUiTextCentered(_text, _transform.X, _transform.Y, 28, _textColor, Engine.Align.Center, Engine.Align.Center);
         
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE)) {
             Engine.SetScene<Seashore>();

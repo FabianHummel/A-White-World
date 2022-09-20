@@ -8,12 +8,12 @@ public static partial class Engine {
     private static readonly Registry<Sound> RegisteredSounds = new();
     private static readonly Logger SoundLogger = GetLogger("Engine/Sound");
     
-    private static bool _loopEnabled = true;
+    private static readonly bool LoopEnabled = true;
     private static CancellationTokenSource _loopToken = new();
     
-    public static Sound LoadSound(string name, string sound, bool persistent = false) {
-        SoundLogger.Info($"Loading sound {name} from {sound}");
-        var instance = Raylib.LoadSound(sound);
+    public static Sound LoadSound(string name, string resource, bool persistent = false) {
+        SoundLogger.Info($"Loading sound {name} from {resource}");
+        var instance = Raylib.LoadSound(resource);
         RegisteredSounds.Add(name,
            ( instance, persistent ) 
         );
@@ -40,11 +40,19 @@ public static partial class Engine {
         
         SoundLogger.Debug(query.Prepend("Dumping Sounds:").ToArray());
     }
+    
+    private static Sound GetSound(string name) {
+        if (RegisteredSounds.TryGetValue(name, out var sound)) {
+            return sound.item;
+        }
+        SoundLogger.Error($"Sound {name} not found");
+        return default;
+    }
 
     public static void PlaySound(string id, bool loop = false) {
-        var sound = RegisteredSounds[id].item;
+        var sound = GetSound(id);
         Raylib.PlaySoundMulti(sound);
-        if (loop && _loopEnabled) {
+        if (loop && LoopEnabled) {
             SoundLogger.Info($"Looping sound {id}");
             Task.Delay((int) sound.Length(), _loopToken.Token).ContinueWith(_ => {
                 PlaySound(id, loop);

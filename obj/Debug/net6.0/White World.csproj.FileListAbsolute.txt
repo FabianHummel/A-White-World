@@ -84,3 +84,9 @@
 /Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/ref/White World.dll
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/dialogue/dialogue-pop-1.wav
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/dialogue/dialogue-pop-2.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/levels/seashore.json
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/Newtonsoft.Json.dll
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/blue-box.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/green-box.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/red-box.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman.png

@@ -2,7 +2,7 @@ using Raylib_CsLo;
 
 namespace WhiteWorld.engine; 
 
-public class TextAnimation : IGameScript {
+public class TextAnimation : GameScript {
 
     private string _current = "";
     private readonly string _target;
@@ -16,7 +16,7 @@ public class TextAnimation : IGameScript {
     }
 
     public override void OnUpdate() {
-        Engine.DrawTextCentered(_current, GameObject.Transform.X, GameObject.Transform.Y, 80, Raylib.DARKGRAY, Engine.Align.Center, Engine.Align.Center);
+        Engine.DrawUiTextCentered(_current, GameObject.Transform.X, GameObject.Transform.Y, 80, Raylib.DARKGRAY, Engine.Align.Center, Engine.Align.Center);
     }
 
     public override void OnTick() {

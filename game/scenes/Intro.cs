@@ -5,7 +5,7 @@ using WhiteWorld.utility;
 
 namespace WhiteWorld.game.scenes; 
 
-public unsafe class Intro : Scene {
+public unsafe class Intro : Engine.Scene {
 
     public Intro() : base(
         new Dictionary<string, string> {
@@ -24,12 +24,16 @@ public unsafe class Intro : Scene {
             { "Guy", (@"assets/images/seashore-intro-guy.gif", 5) }
         },
         
+        new Dictionary<string, string> {
+            
+        },
+        
         new Dictionary<string, GameObject> {
-            { "Intro Title", new GameObject(0, -30, scripts: new IGameScript[] {
+            { "Intro Title", new GameObject(0, -30, scripts: new GameScript[] {
                 new TextAnimation("~ A White World ~"),
                 new SineWaveAnimation()
             }) },
-            { "Continue Text", new GameObject(0, 50, scripts: new IGameScript[] {
+            { "Continue Text", new GameObject(0, 50, scripts: new GameScript[] {
                 new ContinueText("Press <Space> to continue...")
             }) }
         }
@@ -41,8 +45,8 @@ public unsafe class Intro : Scene {
     }
 
     public override void OnUpdate() {
-        Engine.DrawAnimation("Sea", 0, 0, Engine.Align.Center, Engine.Align.Center);
-        Engine.DrawAnimation("Guy", 0, 0, Engine.Align.Center, Engine.Align.Center);
+        Engine.DrawUiAnimation("Sea", 0, 0, Engine.Align.Center, Engine.Align.Center);
+        Engine.DrawUiAnimation("Guy", 0, 0, Engine.Align.Center, Engine.Align.Center);
     }
 
     public override void OnTick() {

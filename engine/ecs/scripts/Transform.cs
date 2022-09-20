@@ -3,7 +3,7 @@ using WhiteWorld.engine;
 namespace WhiteWorld.engine.scripts; 
 
 [DisallowMultipleInstances, DisallowRemoval]
-public class Transform : IGameScript {
+public class Transform : GameScript {
     public int X { get; set; }  //   Y ↑   ↗ Z  
     public int Y { get; set; }  //     | ╱      
     public int Z { get; set; }  //     +⎯⎯⎯> X

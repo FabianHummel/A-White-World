@@ -2,8 +2,9 @@ using WhiteWorld.engine;
 
 namespace WhiteWorld.engine; 
 
-public abstract class IGameScript {
+public abstract class GameScript {
     public GameObject GameObject { get; set; } = null!;
+    // public Engine.Scene Scene { get; set; } = null!;
 
     public abstract void OnInit();
     public abstract void OnUpdate();

@@ -1,4 +1,3 @@
-using System.Numerics;
 using Raylib_CsLo;
 using WhiteWorld.game.scenes;
 
@@ -11,7 +10,7 @@ public static partial class Engine {
 
     private static readonly Logger EngineLogger = GetLogger("Engine/Main");
     
-    private static event Action OnTick;
+    private static event Action OnTick = () => { };
 
     public static void Main() {
         Config();
@@ -107,7 +106,7 @@ public static partial class Engine {
                 gameObject.UpdateScripts();
             }
             
-            _scene?.OnUpdate();
+            _scene.OnUpdate();
         }
         
         UpdateDialogue(); // Call this after the scene update so that the

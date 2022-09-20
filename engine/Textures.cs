@@ -27,11 +27,7 @@ public static unsafe partial class Engine {
             Raylib.UnloadTexture(texture);
         }
     }
-    
-    public static Texture GetTexture(string name) {
-        return RegisteredTextures[name].item;
-    }
-    
+
     public static void DumpTextures() {
         var query = RegisteredTextures.Select(kvp =>
             $"[Texture] {kvp.Key}: " +
@@ -40,6 +36,14 @@ public static unsafe partial class Engine {
         );
         
         SoundLogger.Debug(query.Prepend("Dumping Textures:").ToArray());
+    }
+    
+    public static Texture GetTexture(string name) {
+        if (RegisteredTextures.TryGetValue(name, out var texture)) {
+            return texture.item;
+        }
+        TextureLogger.Error($"Texture {name} not found");
+        return default;
     }
     
     public class Animation {
@@ -102,10 +106,6 @@ public static unsafe partial class Engine {
         }
     }
     
-    public static Animation GetAnimation(string id) {
-        return RegisteredAnimations[id].item;
-    }
-    
     public static void DumpAnimations() {
         var query = RegisteredAnimations.Select(kvp =>
             $"[Animation] {kvp.Key}: " +
@@ -114,5 +114,13 @@ public static unsafe partial class Engine {
         );
         
         SoundLogger.Debug(query.Prepend("Dumping Animations:").ToArray());
+    }
+    
+    public static Animation GetAnimation(string id) {
+        if (RegisteredAnimations.TryGetValue(id, out var animation)) {
+            return animation.item;
+        }
+        TextureLogger.Error($"Animation {id} not found");
+        return default!;
     }
 }

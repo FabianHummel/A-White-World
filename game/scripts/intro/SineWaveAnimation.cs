@@ -1,6 +1,6 @@
 namespace WhiteWorld.engine.intro; 
 
-public class SineWaveAnimation : IGameScript {
+public class SineWaveAnimation : GameScript {
     private int _startY;
 
     public override void OnInit() {
