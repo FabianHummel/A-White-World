@@ -1,5 +1,7 @@
 using System.Numerics;
 
+namespace WhiteWorld.utility;
+
 internal static class SmoothDamp {
     // Based on Unity Source Code which is based on Game Programming Gems 4 Chapter 1.10
 	public static Vector2 Calc(Vector2 current, Vector2 target, ref Vector2 currentVelocity, float smoothTime, float maxSpeed, float deltaTime) {

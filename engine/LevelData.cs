@@ -1,10 +1,10 @@
 namespace WhiteWorld.engine; 
 
 public class LevelData {
-    public string[] Palette { get; }
+    public List<string[]> Palette { get; }
     public int[,] Tiles { get; }
 
-    public LevelData(string[] palette, int[,] tiles) {
+    public LevelData(List<string[]> palette, int[,] tiles) {
         this.Palette = palette;
         this.Tiles = tiles;
     }

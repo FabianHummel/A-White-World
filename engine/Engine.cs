@@ -1,4 +1,5 @@
 using Raylib_CsLo;
+using WhiteWorld.engine.ecs;
 using WhiteWorld.game.scenes;
 
 namespace WhiteWorld.engine;
@@ -9,8 +10,6 @@ public static partial class Engine {
     public static bool Initialized { get; private set; }
 
     private static readonly Logger EngineLogger = GetLogger("Engine/Main");
-    
-    private static event Action OnTick = () => { };
 
     public static void Main() {
         Config();
@@ -60,8 +59,7 @@ public static partial class Engine {
         WindowWidth = Raylib.GetScreenWidth();
         WindowHeight = Raylib.GetScreenHeight();
         
-        CanvasWidth = WindowWidth / PixelSize;
-        CanvasHeight = WindowHeight / PixelSize;
+        PixelSize = (int) (Math.Min(WindowWidth / 600f, WindowHeight / 320f) * 2f) + 3;
 
         // Sort entities by their position in 3D space
         //  Y ↑   ↗ Z
@@ -77,11 +75,11 @@ public static partial class Engine {
 
         Draw(renderSortedQuery.ToList());
         
-        Raylib.DrawFPS(WindowWidth - 150, 10);
+        DrawFps();
         Raylib.EndDrawing();
     }
 
-    private static void Draw(List<GameObject> targets) {
+    private static void Draw(IReadOnlyList<GameObject> targets) {
         DeltaTime = Raylib.GetFrameTime();
         GameTime += DeltaTime;
         if (Initialized) {
@@ -91,21 +89,13 @@ public static partial class Engine {
                 _frameTimeCounter = 0;
                 Frame++;
                 
-                OnTick.Invoke();
-                
-                foreach (var animation in RegisteredAnimations.Values.Select(anim => anim.item)) {
-                    animation.UpdateAnimation();
-                }
+                TickDialogue();
+                TickAnimations();
+                TickGameObjects(targets);
+            }
+            
+            UpdateGameObjects(targets);
 
-                foreach (var gameObject in targets) {
-                    gameObject.TickScripts();
-                }
-            }
-            
-            foreach (var gameObject in targets) {
-                gameObject.UpdateScripts();
-            }
-            
             _scene.OnUpdate();
         }
         
@@ -124,21 +114,5 @@ public static partial class Engine {
         UnloadTextures();
         Raylib.CloseWindow();
         Raylib.CloseAudioDevice();
-    }
-    
-    public static void Debug(params string[] messages) {
-        EngineLogger.Debug(messages);
-    }
-    
-    public static void Info(params string[] messages) {
-        EngineLogger.Info(messages);
-    }
-    
-    public static void Warn(params string[] messages) {
-        EngineLogger.Warn(messages);
-    }
-    
-    public static void Error(params string[] messages) {
-        EngineLogger.Error(messages);
     }
 }

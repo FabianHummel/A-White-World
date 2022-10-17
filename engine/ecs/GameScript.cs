@@ -1,14 +1,13 @@
-using WhiteWorld.engine;
+using WhiteWorld.engine.ecs.interfaces;
 
-namespace WhiteWorld.engine; 
+namespace WhiteWorld.engine.ecs;
 
-public abstract class GameScript {
+public abstract class GameScript : IUpdatable {
     public GameObject GameObject { get; set; } = null!;
-    // public Engine.Scene Scene { get; set; } = null!;
 
-    public abstract void OnInit();
-    public abstract void OnUpdate();
-    public abstract void OnTick();
+    public virtual void OnInit() {}
+    public virtual void OnUpdate() {}
+    public virtual void OnTick() {}
 }
 
 public class DisallowMultipleInstancesAttribute : Attribute {}

@@ -1,12 +1,13 @@
 using System.Reflection;
 using Newtonsoft.Json;
 using Raylib_CsLo;
+using WhiteWorld.engine.ecs;
 
 namespace WhiteWorld.engine;
 
 public static partial class Engine {
 
-    public static Scene _scene = null!;
+    private static Scene _scene = null!;
     private static readonly Logger SceneLogger = GetLogger("Engine/Scene");
 
     private static float _curtainOuterRadius;
@@ -167,8 +168,8 @@ public static partial class Engine {
                 LoadTexture(id, texture);
             }
             
-            foreach (var (id, (texture, frames)) in _animationsToRegister) {
-                LoadAnimation(id, texture, frames);
+            foreach (var (id, (texture, delay)) in _animationsToRegister) {
+                LoadAnimation(id, texture, delay);
             }
             
             foreach (var (id, resource) in _resourcesToRegister) {
@@ -177,6 +178,10 @@ public static partial class Engine {
             
             foreach (var (id, gameObject) in _gameObjectsToSpawn) {
                 SpawnGameObject(id, gameObject);
+            }
+
+            foreach (var (_, (gameObject, _)) in GameObjects) {
+                gameObject.InitScripts();
             }
             
             OnLoad();

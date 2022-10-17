@@ -1,16 +1,17 @@
-using Raylib_CsLo;
 using WhiteWorld.engine;
-using Transform = WhiteWorld.engine.scripts.Transform;
+using WhiteWorld.engine.ecs;
+using Transform = WhiteWorld.engine.ecs.scripts.Transform;
 
 namespace WhiteWorld.game.scripts; 
 
 public class SpriteRenderer : GameScript {
     
-    private readonly string _spriteName;
+    public string SpriteName { get; set; }
+
     private Transform _transform = null!;
 
     public SpriteRenderer(string spriteName) {
-        _spriteName = spriteName;
+        SpriteName = spriteName;
     }
 
     public override void OnInit() {
@@ -18,10 +19,6 @@ public class SpriteRenderer : GameScript {
     }
 
     public override void OnUpdate() {
-        Engine.DrawSceneImage(_spriteName, _transform.X, _transform.Y);
-    }
-
-    public override void OnTick() {
-        
+        Engine.DrawSceneImage(SpriteName, _transform.X, _transform.Y + _transform.Z);
     }
 }

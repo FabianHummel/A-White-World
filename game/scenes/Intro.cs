@@ -1,11 +1,11 @@
-using Raylib_CsLo;
 using WhiteWorld.engine;
-using WhiteWorld.engine.intro;
-using WhiteWorld.utility;
+using WhiteWorld.engine.ecs;
+using WhiteWorld.engine.ecs.scripts;
+using WhiteWorld.game.scripts.intro;
 
 namespace WhiteWorld.game.scenes; 
 
-public unsafe class Intro : Engine.Scene {
+public class Intro : Engine.Scene {
 
     public Intro() : base(
         new Dictionary<string, string> {
@@ -20,8 +20,8 @@ public unsafe class Intro : Engine.Scene {
         },
         
         new Dictionary<string, (string, int)> {
-            { "Sea", (@"assets/images/seashore-intro-sea.gif", 5) },
-            { "Guy", (@"assets/images/seashore-intro-guy.gif", 5) }
+            { "Sea", ( @"assets/images/seashore-intro-sea.gif", 5 ) },
+            { "Guy", ( @"assets/images/seashore-intro-guy.gif", 5 ) }
         },
         
         new Dictionary<string, string> {
@@ -29,13 +29,16 @@ public unsafe class Intro : Engine.Scene {
         },
         
         new Dictionary<string, GameObject> {
-            { "Intro Title", new GameObject(0, -30, scripts: new GameScript[] {
-                new TextAnimation("~ A White World ~"),
-                new SineWaveAnimation()
-            }) },
-            { "Continue Text", new GameObject(0, 50, scripts: new GameScript[] {
-                new ContinueText("Press <Space> to continue...")
-            }) }
+            { "Intro Title", new GameObject()
+                .WithTransform(new Transform(0, -30))
+                .AddScript(new Title("~ A White World ~"))
+                .AddScript(new TitleAnim())
+            },
+
+            { "Continue Text", new GameObject()
+                .WithTransform(new Transform(0, -10))
+                .AddScript(new Continue("Press <Space> to continue..."))
+            }
         }
     ) { }
 

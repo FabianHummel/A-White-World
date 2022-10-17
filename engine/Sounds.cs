@@ -60,7 +60,7 @@ public static partial class Engine {
         }
     }
 
-    public static void PlaySound(params string[] sounds) {
+    public static void PlayRandomSound(params string[] sounds) {
         PlaySound(sounds[Raylib.GetRandomValue(0, sounds.Length - 1)]);
     }
     

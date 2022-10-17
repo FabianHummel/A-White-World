@@ -1,31 +1,61 @@
-using WhiteWorld.engine.scripts;
+using WhiteWorld.engine.ecs.interfaces;
+using WhiteWorld.engine.ecs.scripts;
 using WhiteWorld.utility;
 
-namespace WhiteWorld.engine;
+namespace WhiteWorld.engine.ecs;
 
 public class GameObject {
     private readonly List<GameScript> _scripts = new();
+    private readonly List<GameObject> _children = new();
     
-    public Transform Transform { get; }
-    public Engine.Scene Scene { get; }
+    public IReadOnlyList<GameScript> Scripts => _scripts;
+    public GameObject? Parent { get; private set; }
+    public Transform Transform { get; private set; }
 
-    public GameObject(int x = 0, int y = 0, int z = 0, params GameScript[] scripts) {
-        Transform = new Transform(x, y, z);
+    public GameObject() {
+        Transform = new Transform();
         AddScript(Transform);
-        foreach (var gameScript in scripts) {
-            AddScript(gameScript);
-        }
     }
 
     public void InitScripts() {
         foreach (var gameScript in _scripts) {
             gameScript.OnInit();
         }
+
+        InitEngineInterfaces();
+
+        // Recursively initialize children's scripts
+        foreach (var child in _children) {
+            child.InitScripts();
+        }
+    }
+
+    private void InitEngineInterfaces() {
+
     }
     
     public void UpdateScripts() {
         foreach (var gameScript in _scripts) {
             gameScript.OnUpdate();
+        }
+
+        UpdateEngineInterfaces();
+
+        // Recursively update children
+        foreach (var child in _children) {
+            child.UpdateScripts();
+        }
+    }
+
+    private void UpdateEngineInterfaces() {
+        foreach (var gameScript in _scripts.OfType<IViewport>()) {
+            if (!gameScript.InViewport && Engine.InViewport(gameScript.Position, gameScript.Size)) {
+                gameScript.InViewport = true;
+                gameScript.OnViewportEnter();
+            } else if (gameScript.InViewport && !Engine.InViewport(gameScript.Position, gameScript.Size)) {
+                gameScript.InViewport = false;
+                gameScript.OnViewportExit();
+            }
         }
     }
     
@@ -33,6 +63,17 @@ public class GameObject {
         foreach (var gameScript in _scripts) {
             gameScript.OnTick();
         }
+
+        TickEngineInterfaces();
+
+        // Recursively tick children
+        foreach (var child in _children) {
+            child.TickScripts();
+        }
+    }
+
+    private void TickEngineInterfaces() {
+
     }
 
     public void Unload() {
@@ -46,7 +87,6 @@ public class GameObject {
             _scripts.Any(s => s.GetType() == type)
         ), script);
         script.GameObject = this;
-        if (Engine.Initialized) script.OnInit(); // Initialize script if engine is already initialized
         return this;
     }
     
@@ -57,8 +97,8 @@ public class GameObject {
         return this;
     }
     
-    public T? GetScript<T>() where T : GameScript {
-        return (T?) _scripts.FirstOrDefault(s => s is T);
+    public T GetScript<T>() where T : GameScript {
+        return (T) _scripts.FirstOrDefault(s => s is T)!;
     }
     
     public IEnumerable<T> GetScripts<T>() where T : GameScript {
@@ -66,12 +106,18 @@ public class GameObject {
     }
 
     public GameObject RemoveScript<T>(T script) where T : GameScript {
-        _scripts.Remove(script);
+        var type = script.GetType();
+        _scripts.RemoveIf(
+            !Attribute.IsDefined(type, typeof(DisallowRemovalAttribute)),
+            script
+        );
         return this;
     }
     
     public GameObject RemoveScripts<T>() where T : GameScript {
-        _scripts.RemoveAll(s => s is T);
+        foreach (var script in GetScripts<T>()) {
+            RemoveScript(script);
+        }
         return this;
     }
     
@@ -85,5 +131,22 @@ public class GameObject {
     
     public bool HasScript<T>() where T : GameScript {
         return _scripts.Any(s => s is T);
+    }
+
+    public GameObject WithChild(GameObject child) {
+        _children.Add(child.Apply(o => {
+            o.Parent = this;
+        }));
+        return this;
+    }
+
+    public GameObject WithChildren(IEnumerable<GameObject> children) {
+        _children.AddRange(children);
+        return this;
+    }
+
+    public GameObject WithTransform(Transform transform) {
+        Transform.UpdateTransform(transform);
+        return this;
     }
 }

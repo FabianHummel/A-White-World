@@ -1,5 +1,4 @@
 using Raylib_CsLo;
-using WhiteWorld.utility;
 
 namespace WhiteWorld.engine;
 
@@ -38,6 +37,8 @@ public static partial class Engine {
     
     private static string _dialogueText = "";
     private static int _dialogueTextFrame = 0;
+
+    public static bool DialogueOpen => _dialogueOpen;
 
     public static void QueueDialogue(string title, string text, DialogueOption[] options) {
         DialogueQueue.Add(new Dialogue(title, text, options, null));
@@ -90,7 +91,7 @@ public static partial class Engine {
 
             if (IsDialogueQueueEmpty()) {
                 _dialogueOpen = false;
-                PlaySound("Dialogue Pop 1", "Dialogue Pop 2");
+                PlayRandomSound("Dialogue Pop 1", "Dialogue Pop 2");
             }
             else {
                 TryNextDialogue();
@@ -98,7 +99,7 @@ public static partial class Engine {
         }
         else {
             _dialogueTextFrame = _currentDialogue!.Text.Length; // If the dialogue isn't complete, finish it
-            PlaySound("Dialogue Pop 1", "Dialogue Pop 2");
+            PlayRandomSound("Dialogue Pop 1", "Dialogue Pop 2");
         }
     }
 
@@ -126,7 +127,6 @@ public static partial class Engine {
     private static int _dialogueBoxHeight;
 
     private static void InitDialogue() {
-        OnTick += TickDialogue;
         var box = LoadTexture("Dialogue Box", @"assets/images/dialogue-box.png", persistent: true);
         _dialogueBoxWidth = box.width;
         _dialogueBoxHeight = box.height;
@@ -141,7 +141,7 @@ public static partial class Engine {
         if (IsDialogueOpen() && Frame % 2 == 0) {
             if (!IsDialogueComplete()) {
                 _dialogueTextFrame++;
-                PlaySound("Dialogue Text 1", "Dialogue Text 2", "Dialogue Text 3");
+                PlayRandomSound("Dialogue Text 1", "Dialogue Text 2", "Dialogue Text 3");
             }
             _dialogueText = _currentDialogue!.Text[.._dialogueTextFrame];
         }
@@ -153,29 +153,41 @@ public static partial class Engine {
         DrawUiText(
             _dialogueText,
             -_dialogueBoxWidth / 2 + 7,
-            -_dialogueBoxHeight + 2,
-            28,
+            -_dialogueBoxHeight + 3,
+            5,
+            1.0f,
             Raylib.DARKGRAY,
             Align.Center,
             Align.End
         );
-        
-        var len = GetTextLength(TitleFont, _currentDialogue!.Title, 28);
+
+        var len = GetTextLength(MainFont, _currentDialogue!.Title, 5);
         DrawUiRectangle(
             -_dialogueBoxWidth / 2 + 10 - 2,
-            -_dialogueBoxHeight - 5,
-            (int) len.X / PixelSize + 4,
-            (int) len.Y / PixelSize,
-            Raylib.RAYWHITE,
+            -_dialogueBoxHeight - 5 - 1,
+            (int) len.X + 4,
+            (int) len.Y + 2,
+            Raylib.DARKGRAY,
             Align.Center,
             Align.End
         );
-        
+
+        DrawUiRectangle(
+                -_dialogueBoxWidth / 2 + 10 - 1,
+                -_dialogueBoxHeight - 5,
+                (int) len.X + 2,
+                (int) len.Y,
+                Raylib.RAYWHITE,
+                Align.Center,
+                Align.End
+            );
+
         DrawUiText(
             _currentDialogue!.Title,
             -_dialogueBoxWidth / 2 + 10,
             -_dialogueBoxHeight - 5,
-            28,
+            5,
+            1.5f,
             Raylib.DARKGRAY,
             Align.Center,
             Align.End

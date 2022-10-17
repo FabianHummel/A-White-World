@@ -1,4 +1,4 @@
-using WhiteWorld.engine;
+using WhiteWorld.engine.ecs;
 
 namespace WhiteWorld.engine; 
 
@@ -12,12 +12,23 @@ public static partial class Engine {
         GameObjects.Add(name, 
             ( gameObject, persistent )
         );
-        gameObject.InitScripts();
         return gameObject;
     }
     
     public static GameObject SpawnGameObject(GameObject gameObject, bool persistent = false) {
         return SpawnGameObject($"{GameTime}: {gameObject}", gameObject, persistent);
+    }
+
+    private static void TickGameObjects(IReadOnlyList<GameObject> targets) {
+        foreach (var gameObject in targets) {
+            gameObject.TickScripts();
+        }
+    }
+
+    private static void UpdateGameObjects(IReadOnlyList<GameObject> targets) {
+        foreach (var gameObject in targets) {
+            gameObject.UpdateScripts();
+        }
     }
 
     private static void RemoveGameObjects() {

@@ -49,7 +49,6 @@
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore-intro-sea.gif
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/shaders/curtain.fs
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/.DS_Store
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/ambient/seashore.wav
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/music/seashore-waves.wav
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-1.wav
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-2.wav
@@ -86,7 +85,14 @@
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/dialogue/dialogue-pop-2.wav
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/levels/seashore.json
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/Newtonsoft.Json.dll
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/blue-box.png
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/green-box.png
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/red-box.png
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-down-left.gif.bak
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-down-right.gif.bak
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-idle-flipped.gif
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-idle.gif
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-walking-flipped.gif
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-walking.gif
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/ambient/ocean.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/sand/sand-trbl-1.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/sand/sand-trbl-2.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/sand/sand-trbl-3.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/sand/sand-trbl-4.png

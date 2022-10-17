@@ -73,7 +73,7 @@ public static unsafe partial class Engine {
             _frame = 0;
         }
 
-        public void UpdateAnimation() {
+        public void TickAnimation() {
             var currentTick = Frame - _startFrame;
             if (currentTick % _delay == 0) {
                 NextFrame();
@@ -95,6 +95,12 @@ public static unsafe partial class Engine {
         return instance;
     }
     
+    private static void TickAnimations() {
+        foreach (var animation in RegisteredAnimations.Values.Select(anim => anim.item)) {
+            animation.TickAnimation();
+        }
+    }
+
     private static void UnloadAnimations() {
         var query = from animation in RegisteredAnimations
             where !animation.Value.persistent
