@@ -15,6 +15,12 @@ public static class Extensions {
             source.Remove(item);
     }
 
+    public static T Pop<T>(this IList<T> source) {
+        var item = source.ElementAt(0);
+        source.RemoveAt(0);
+        return item;
+    }
+
     public static double Length(this Sound sound) {
         return (double) sound.frameCount / sound.stream.sampleRate * 1000d;
     }
@@ -30,9 +36,8 @@ public static class Extensions {
 
     public delegate void ApplyObj<in T>(T obj);
 
-    public static T Apply<T>(this T obj, ApplyObj<T> func) {
-        func.Invoke(obj);
-        return obj;
+    public static string ToMemoryAddress(this object obj) {
+        return $"{obj.GetType()}@{obj.GetHashCode().ToString("X")}";
     }
 }
 

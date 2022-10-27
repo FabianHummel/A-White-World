@@ -1,4 +1,5 @@
 using WhiteWorld.engine.ecs;
+using WhiteWorld.utility;
 
 namespace WhiteWorld.engine; 
 
@@ -8,15 +9,15 @@ public static partial class Engine {
     private static readonly Logger GameObjectLogger = GetLogger("Engine/GameObject");
     
     public static GameObject SpawnGameObject(string name, GameObject gameObject, bool persistent = false) {
+        gameObject.Name = name;
+        gameObject.Load();
         GameObjectLogger.Info($"Spawning {name} with {gameObject.GetScriptCount()} scripts attached");
-        GameObjects.Add(name, 
-            ( gameObject, persistent )
-        );
+        GameObjects.Add(name, ( gameObject, persistent ));
         return gameObject;
     }
     
     public static GameObject SpawnGameObject(GameObject gameObject, bool persistent = false) {
-        return SpawnGameObject($"{GameTime}: {gameObject}", gameObject, persistent);
+        return SpawnGameObject(gameObject.ToMemoryAddress(), gameObject, persistent);
     }
 
     private static void TickGameObjects(IReadOnlyList<GameObject> targets) {
@@ -28,6 +29,12 @@ public static partial class Engine {
     private static void UpdateGameObjects(IReadOnlyList<GameObject> targets) {
         foreach (var gameObject in targets) {
             gameObject.UpdateScripts();
+        }
+    }
+
+    private static void UpdateGui(IReadOnlyList<GameObject> targets) {
+        foreach (var gameObject in targets) {
+            gameObject.UpdateGui();
         }
     }
 
@@ -57,6 +64,6 @@ public static partial class Engine {
             $"persistent: {kvp.Value.persistent}; "
         );
         
-        GameObjectLogger.Debug(query.Prepend("Dumping GameObjects:").ToArray());
+        GameObjectLogger.Debug(query.Prepend("Dumping GameObjects:"));
     }
 }

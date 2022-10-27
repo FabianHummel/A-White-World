@@ -5,7 +5,8 @@ public static partial class Engine {
     public static float GameTime { get; private set; }
     public static int Frame { get; private set; }
 
-    private static float _frameTimeCounter;
+    private static float _tickTimeCounter;
+    private static float _secTimeCounter;
     
     private static readonly Logger TimeLogger = GetLogger("Engine/Time");
 

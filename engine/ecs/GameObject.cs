@@ -1,5 +1,5 @@
-using WhiteWorld.engine.ecs.interfaces;
-using WhiteWorld.engine.ecs.scripts;
+using WhiteWorld.engine.interfaces;
+using WhiteWorld.engine.scripts;
 using WhiteWorld.utility;
 
 namespace WhiteWorld.engine.ecs;
@@ -9,8 +9,11 @@ public class GameObject {
     private readonly List<GameObject> _children = new();
     
     public IReadOnlyList<GameScript> Scripts => _scripts;
+    public IReadOnlyList<GameObject> Children => _children;
+
     public GameObject? Parent { get; private set; }
     public Transform Transform { get; private set; }
+    public string Name { get; set; } = null!;
 
     public GameObject() {
         Transform = new Transform();
@@ -22,49 +25,16 @@ public class GameObject {
             gameScript.OnInit();
         }
 
-        InitEngineInterfaces();
-
         // Recursively initialize children's scripts
         foreach (var child in _children) {
             child.InitScripts();
         }
     }
 
-    private void InitEngineInterfaces() {
-
-    }
-    
-    public void UpdateScripts() {
-        foreach (var gameScript in _scripts) {
-            gameScript.OnUpdate();
-        }
-
-        UpdateEngineInterfaces();
-
-        // Recursively update children
-        foreach (var child in _children) {
-            child.UpdateScripts();
-        }
-    }
-
-    private void UpdateEngineInterfaces() {
-        foreach (var gameScript in _scripts.OfType<IViewport>()) {
-            if (!gameScript.InViewport && Engine.InViewport(gameScript.Position, gameScript.Size)) {
-                gameScript.InViewport = true;
-                gameScript.OnViewportEnter();
-            } else if (gameScript.InViewport && !Engine.InViewport(gameScript.Position, gameScript.Size)) {
-                gameScript.InViewport = false;
-                gameScript.OnViewportExit();
-            }
-        }
-    }
-    
     public void TickScripts() {
         foreach (var gameScript in _scripts) {
             gameScript.OnTick();
         }
-
-        TickEngineInterfaces();
 
         // Recursively tick children
         foreach (var child in _children) {
@@ -72,12 +42,45 @@ public class GameObject {
         }
     }
 
-    private void TickEngineInterfaces() {
+    public void UpdateScripts() {
+        foreach (var gameScript in _scripts) {
+            gameScript.OnUpdate();
+        }
 
+        foreach (var gameScript in _scripts.OfType<IViewport>()) {
+            IViewport.Update(gameScript);
+        }
+
+        // Recursively update children
+        foreach (var child in _children) {
+            child.UpdateScripts();
+        }
+    }
+
+    public void UpdateGui() {
+        foreach (var gameScript in _scripts) {
+            gameScript.OnGui();
+        }
+
+        // Recursively update children
+        foreach (var child in _children) {
+            child.UpdateGui();
+        }
+    }
+
+    public void Load() {
+        foreach (var gameScript in _scripts.OfType<ISerializable>()) {
+            DataBuffer? buffer = DataBuffer.ReadFromDisk(gameScript.Identifier);
+            gameScript.Load(buffer);
+        }
     }
 
     public void Unload() {
-        
+        foreach (var gameScript in _scripts.OfType<ISerializable>()) {
+            DataBuffer buffer = new();
+            gameScript.Save(buffer);
+            buffer.WriteToDisk(gameScript.Identifier);
+        }
     }
 
     public GameObject AddScript<T>(T script) where T : GameScript {
@@ -134,9 +137,8 @@ public class GameObject {
     }
 
     public GameObject WithChild(GameObject child) {
-        _children.Add(child.Apply(o => {
-            o.Parent = this;
-        }));
+        child.Parent = this;
+        _children.Add(child);
         return this;
     }
 

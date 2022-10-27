@@ -1,6 +1,6 @@
 using WhiteWorld.engine;
 using WhiteWorld.engine.ecs;
-using WhiteWorld.engine.ecs.scripts;
+using WhiteWorld.engine.scripts;
 using WhiteWorld.game.scripts.intro;
 
 namespace WhiteWorld.game.scenes; 
@@ -8,27 +8,17 @@ namespace WhiteWorld.game.scenes;
 public class Intro : Engine.Scene {
 
     public Intro() : base(
-        new Dictionary<string, string> {
-            { "Text 1", @"assets/sounds/text/text-1.wav" },
-            { "Text 2", @"assets/sounds/text/text-2.wav" },
-            { "Text 3", @"assets/sounds/text/text-3.wav" },
+        soundsToRegister: new Dictionary<string, string> {
+            { "Seashore Waves", @"assets/sounds/music/seashore-waves.wav" },
+            { "Ocean", @"assets/sounds/ambient/ocean.wav" }
+        },
 
-            { "Seashore Waves", @"assets/sounds/music/seashore-waves.wav" }
-        },
-        new Dictionary<string, string> {
-            
-        },
-        
-        new Dictionary<string, (string, int)> {
-            { "Sea", ( @"assets/images/seashore-intro-sea.gif", 5 ) },
-            { "Guy", ( @"assets/images/seashore-intro-guy.gif", 5 ) }
+        animationsToRegister: new Dictionary<string, (string, int)> {
+            { "Ocean", ( @"assets/images/seashore-intro-sea.gif", 5 ) },
+            { "Seaman", ( @"assets/images/seashore-intro-guy.gif", 5 ) }
         },
         
-        new Dictionary<string, string> {
-            
-        },
-        
-        new Dictionary<string, GameObject> {
+        gameObjectsToSpawn: new Dictionary<string, GameObject> {
             { "Intro Title", new GameObject()
                 .WithTransform(new Transform(0, -30))
                 .AddScript(new Title("~ A White World ~"))
@@ -42,17 +32,15 @@ public class Intro : Engine.Scene {
         }
     ) { }
 
-    public override void OnLoad() {
-        Engine.PlaySound("Seashore Waves", true);
-        Engine.StartAnimation("Guy");
+    public override void OnInit() {
+        Engine.StartAnimation("Seaman");
+        foreach (var s in new[] { "Seashore Waves", "Ocean" }) {
+            Engine.PlaySound(s, true);
+        }
     }
 
     public override void OnUpdate() {
-        Engine.DrawUiAnimation("Sea", 0, 0, Engine.Align.Center, Engine.Align.Center);
-        Engine.DrawUiAnimation("Guy", 0, 0, Engine.Align.Center, Engine.Align.Center);
-    }
-
-    public override void OnTick() {
-        
+        Engine.DrawUiAnimation("Ocean", 0, 0, Engine.Align.Center, Engine.Align.Center);
+        Engine.DrawUiAnimation("Seaman", 0, 0, Engine.Align.Center, Engine.Align.Center);
     }
 }

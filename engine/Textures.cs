@@ -35,7 +35,7 @@ public static unsafe partial class Engine {
             $"persistent: {kvp.Value.persistent}; "
         );
         
-        SoundLogger.Debug(query.Prepend("Dumping Textures:").ToArray());
+        SoundLogger.Debug(query.Prepend("Dumping Textures:"));
     }
     
     public static Texture GetTexture(string name) {
@@ -119,7 +119,7 @@ public static unsafe partial class Engine {
             $"persistent: {kvp.Value.persistent}; "
         );
         
-        SoundLogger.Debug(query.Prepend("Dumping Animations:").ToArray());
+        SoundLogger.Debug(query.Prepend("Dumping Animations:"));
     }
     
     public static Animation GetAnimation(string id) {

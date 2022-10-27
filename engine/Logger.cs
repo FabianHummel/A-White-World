@@ -55,7 +55,7 @@ public class Logger : ILogger {
         Console.Write($"[{level.ToString().ToUpper()}] ");
         
         Console.ResetColor();
-        Console.Write($"[{Engine.GameTime:00,0##}s | {Engine.Frame}] [{_name}]\n");
+        Console.Write($"[{Engine.GameTime:###,00}s | {Engine.Frame}] [{_name}]\n");
 
         for (var i = 0; i < messages.Length; i++) {
             Console.ForegroundColor = ConsoleColor.Gray;

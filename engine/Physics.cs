@@ -1,6 +1,6 @@
 using System.Numerics;
-using WhiteWorld.engine.ecs.interfaces;
-using WhiteWorld.engine.ecs.scripts;
+using WhiteWorld.engine.interfaces;
+using WhiteWorld.engine.scripts;
 
 namespace WhiteWorld.engine;
 

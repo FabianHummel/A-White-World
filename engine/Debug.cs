@@ -1,7 +1,7 @@
 using System.Numerics;
 using Raylib_CsLo;
-using WhiteWorld.engine.ecs.scripts;
-using Transform = WhiteWorld.engine.ecs.scripts.Transform;
+using WhiteWorld.engine.scripts;
+using Transform = WhiteWorld.engine.scripts.Transform;
 
 namespace WhiteWorld.engine;
 
@@ -14,10 +14,10 @@ public static partial class Engine {
     }
 
     private static void DrawOutline(int x, int y, int w, int h, Color c) {
-        DrawSceneRectangle(x, y, w, 1, c);
-        DrawSceneRectangle(x, y+h-1, w, 1, c);
-        DrawSceneRectangle(x, y, 1, h, c);
-        DrawSceneRectangle(x+h-1, y, 1, h, c);
+        DrawSceneRectangle(x, y, w, 1, c);      // top
+        DrawSceneRectangle(x, y+h-1, w, 1, c);  // bottom
+        DrawSceneRectangle(x, y, 1, h, c);      // left
+        DrawSceneRectangle(x+w-1, y, 1, h, c);  // right
     }
 
     public static void DebugTransform(Transform transform) {

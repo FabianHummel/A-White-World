@@ -5,14 +5,12 @@ namespace WhiteWorld.engine;
 public static partial class Engine {
 
     public class DialogueOption {
-        public string Title { get; }
-        public string Text { get; }
+        public string Option { get; }
         public Action OnSelect { get; }
 
-        public DialogueOption(string title, string text, Action onSelect) {
-            Title = title;
-            Text = text;
-            OnSelect = onSelect;
+        public DialogueOption(string option, Action onSelect) {
+            this.Option = option;
+            this.OnSelect = onSelect;
         }
     }
 
@@ -23,15 +21,15 @@ public static partial class Engine {
         public Action? OnContinue { get; }
 
         public Dialogue(string title, string text, DialogueOption[] options, Action? onContinue) {
-            Title = title;
-            Text = text;
-            Options = options;
-            OnContinue = onContinue;
+            this.Title = title;
+            this.Text = text;
+            this.Options = options;
+            this.OnContinue = onContinue;
         }
     }
 
     private static readonly List<Dialogue> DialogueQueue = new();
-    private static Dialogue? _currentDialogue;
+    private static Dialogue _currentDialogue = null!;
     private static bool _dialogueOpen;
     private static int _selectedDialogueOption;
     
@@ -49,11 +47,7 @@ public static partial class Engine {
     }
     
     private static bool IsDialogueComplete() {
-        return _dialogueTextFrame >= _currentDialogue!.Text.Length;
-    }
-    
-    private static bool IsDialogueOpen() {
-        return _dialogueOpen;
+        return _dialogueTextFrame >= _currentDialogue.Text.Length;
     }
     
     private static bool IsDialogueQueueEmpty() {
@@ -61,11 +55,12 @@ public static partial class Engine {
     }
     
     private static bool HasDialogueOptions() {
-        return _currentDialogue!.Options.Length > 0;
+        return _currentDialogue.Options.Length > 0;
     }
 
     private static void TryNextDialogue() {
         if (!IsDialogueQueueEmpty()) {
+            _selectedDialogueOption = 0;
             _currentDialogue = DialogueQueue[0];
             DialogueQueue.RemoveAt(0);
             _dialogueOpen = true;
@@ -75,43 +70,54 @@ public static partial class Engine {
     }
 
     private static void NextDialogueOption() {
-        _selectedDialogueOption = (_selectedDialogueOption + 1) % _currentDialogue!.Options.Length;
+        _selectedDialogueOption = (_selectedDialogueOption + 1) % _currentDialogue.Options.Length;
+        PlayRandomSound("Cycle 1", "Cycle 2");
     }
 
     private static void PreviousDialogueOption() {
-        _selectedDialogueOption = (_selectedDialogueOption - 1) % _currentDialogue!.Options.Length;
+        _selectedDialogueOption = (_selectedDialogueOption - 1) % _currentDialogue.Options.Length;
+        if (_selectedDialogueOption < 0) _selectedDialogueOption = _currentDialogue.Options.Length - 1;
+        PlayRandomSound("Cycle 1", "Cycle 2");
+    }
+
+    private static void InvokeSelectedDialogueOption() {
+        _currentDialogue.Options[_selectedDialogueOption].OnSelect();
+        PlayRandomSound("Select 1", "Select 2");
     }
 
     private static void ContinueDialogue() {
         if (IsDialogueComplete()) {
-            if (HasDialogueOptions()) 
-                _currentDialogue!.Options[_selectedDialogueOption].OnSelect();
-            else
-                _currentDialogue!.OnContinue?.Invoke();
+            if (HasDialogueOptions()) {
+                InvokeSelectedDialogueOption();
+            } else {
+                _currentDialogue.OnContinue?.Invoke();
+            }
 
             if (IsDialogueQueueEmpty()) {
                 _dialogueOpen = false;
-                PlayRandomSound("Dialogue Pop 1", "Dialogue Pop 2");
+                PlayRandomSound("Pop 1", "Pop 2");
             }
             else {
                 TryNextDialogue();
             }
         }
         else {
-            _dialogueTextFrame = _currentDialogue!.Text.Length; // If the dialogue isn't complete, finish it
-            PlayRandomSound("Dialogue Pop 1", "Dialogue Pop 2");
+            _dialogueTextFrame = _currentDialogue.Text.Length; // If the dialogue isn't complete, finish it
+            PlayRandomSound("Pop 1", "Pop 2");
         }
     }
 
     private static void UpdateDialogue() {
-        if (_dialogueOpen) {
+        if (DialogueOpen) {
             DrawDialogue();
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP)) {
-                NextDialogueOption();
-            }
 
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN)) {
-                PreviousDialogueOption();
+            if (HasDialogueOptions()) {
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP)) {
+                    PreviousDialogueOption();
+                }
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN)) {
+                    NextDialogueOption();
+                }
             }
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) || Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER)) {
@@ -128,69 +134,102 @@ public static partial class Engine {
 
     private static void InitDialogue() {
         var box = LoadTexture("Dialogue Box", @"assets/images/dialogue-box.png", persistent: true);
+        LoadTexture("Dialogue Box Options", @"assets/images/dialogue-box-options.png", persistent: true); // same size
         _dialogueBoxWidth = box.width;
         _dialogueBoxHeight = box.height;
-        LoadSound("Dialogue Text 1", @"assets/sounds/text/text-1.wav", persistent: true);
-        LoadSound("Dialogue Text 2", @"assets/sounds/text/text-2.wav", persistent: true);
-        LoadSound("Dialogue Text 3", @"assets/sounds/text/text-3.wav", persistent: true);
-        LoadSound("Dialogue Pop 1", @"assets/sounds/dialogue/dialogue-pop-1.wav", persistent: true);
-        LoadSound("Dialogue Pop 2", @"assets/sounds/dialogue/dialogue-pop-2.wav", persistent: true);
     }
 
     private static void TickDialogue() {
-        if (IsDialogueOpen() && Frame % 2 == 0) {
+        if (DialogueOpen && Frame % 2 == 0) {
             if (!IsDialogueComplete()) {
                 _dialogueTextFrame++;
-                PlayRandomSound("Dialogue Text 1", "Dialogue Text 2", "Dialogue Text 3");
+                PlayRandomSound("Text 1", "Text 2", "Text 3");
             }
-            _dialogueText = _currentDialogue!.Text[.._dialogueTextFrame];
+            _dialogueText = _currentDialogue.Text[.._dialogueTextFrame];
         }
     }
 
     private static void DrawDialogue() {
-        DrawUiImage("Dialogue Box", 0, -5, Align.Center, Align.End);
+
+        int centerToLeftAlignX = -_dialogueBoxWidth / 2;
+        int endToTopAlignY = -_dialogueBoxHeight;
+
+        if (HasDialogueOptions()) {
+            DrawUiImage("Dialogue Box Options", 0, -5, ax: Align.Center, ay: Align.End);
+            DrawOptions();
+        } else {
+            DrawUiImage("Dialogue Box", 0, -5, ax: Align.Center, ay: Align.End);
+        }
         
-        DrawUiText(
-            _dialogueText,
-            -_dialogueBoxWidth / 2 + 7,
-            -_dialogueBoxHeight + 3,
-            5,
-            1.0f,
-            Raylib.DARKGRAY,
-            Align.Center,
-            Align.End
-        );
+        DrawText();
+        DrawTitle();
 
-        var len = GetTextLength(MainFont, _currentDialogue!.Title, 5);
-        DrawUiRectangle(
-            -_dialogueBoxWidth / 2 + 10 - 2,
-            -_dialogueBoxHeight - 5 - 1,
-            (int) len.X + 4,
-            (int) len.Y + 2,
-            Raylib.DARKGRAY,
-            Align.Center,
-            Align.End
-        );
+        void DrawText() {
+            DrawUiText(
+                _dialogueText,
+                centerToLeftAlignX + 7,
+                endToTopAlignY + 3,
+                5, 1.0f,
+                Raylib.DARKGRAY,
+                Align.Center,
+                Align.End );
+        }
 
-        DrawUiRectangle(
-                -_dialogueBoxWidth / 2 + 10 - 1,
-                -_dialogueBoxHeight - 5,
+        void DrawTitle() {
+            var len = GetTextLength(MainFont, _currentDialogue.Title, 5, 1.0f);
+            DrawUiRectangle(
+                centerToLeftAlignX + 10 - 2,
+                endToTopAlignY - 5 - 1,
+                (int) len.X + 4,
+                (int) len.Y + 2,
+                Raylib.DARKGRAY,
+                Align.Center,
+                Align.End );
+            DrawUiRectangle(
+                centerToLeftAlignX + 10 - 1,
+                endToTopAlignY - 5,
                 (int) len.X + 2,
                 (int) len.Y,
                 Raylib.RAYWHITE,
                 Align.Center,
-                Align.End
-            );
+                Align.End );
+            DrawUiText(
+                _currentDialogue.Title,
+                centerToLeftAlignX + 10,
+                endToTopAlignY - 5,
+                5, 1.0f,
+                Raylib.DARKGRAY,
+                Align.Center,
+                Align.End );
+        }
 
-        DrawUiText(
-            _currentDialogue!.Title,
-            -_dialogueBoxWidth / 2 + 10,
-            -_dialogueBoxHeight - 5,
-            5,
-            1.5f,
-            Raylib.DARKGRAY,
-            Align.Center,
-            Align.End
-        );
+        void DrawOptions() {
+            var heightSum = 0;
+            for (int i = 0; i < _currentDialogue.Options.Length; i++) {
+                var option = _currentDialogue.Options[i];
+                var selected = _selectedDialogueOption == i;
+                if (selected) {
+                    DrawUiText(
+                        option.Option,
+                        centerToLeftAlignX + 80,
+                        endToTopAlignY + 1 + heightSum + i - 1,
+                        5, 1.0f,
+                        Raylib.DARKGRAY,
+                        Align.Center,
+                        Align.End );
+                } else {
+                    DrawUiText(
+                        option.Option,
+                        centerToLeftAlignX + 80,
+                        endToTopAlignY + 1 + heightSum + i,
+                        5, 1.0f,
+                        Raylib.LIGHTGRAY,
+                        Align.Center,
+                        Align.End );
+                }
+
+                heightSum += (int) GetTextLength(MainFont, option.Option, 5, 1.0f).Y;
+            }
+        }
     }
 }

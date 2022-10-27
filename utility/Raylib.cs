@@ -201,4 +201,51 @@ public class RaylibExtensions {
             if ((textOffsetX != 0) || (codepoint != ' ')) textOffsetX += glyphWidth;  // avoid leading spaces
         }
     }
+
+    public unsafe static Vector2 MeasureTextEx(Font font, string text, float fontSize, float spacing, float lineHeight)
+    {
+        SpanOwner<sbyte> sotext = text.MarshalUtf8();
+        int size = Raylib.TextLength(text);    // Get size in bytes of text
+        int tempByteCounter = 0;        // Used to count longer text line num chars
+        int byteCounter = 0;
+
+        float textWidth = 0.0f;
+        float tempTextWidth = 0.0f;     // Used to count longer text line width
+
+        float textHeight = font.baseSize;
+        float scaleFactor = fontSize/font.baseSize;
+
+        for (int i = 0; i < size; i++)
+        {
+            byteCounter++;
+
+            int next = 0;
+            var letter = Raylib.GetCodepoint(&sotext.AsPtr()[i], &next);     // Current character
+            var index = Raylib.GetGlyphIndex(font, letter);                  // Index position in sprite font
+
+            // NOTE: normally we exit the decoding sequence as soon as a bad byte is found (and return 0x3f)
+            // but we need to draw all of the bad bytes using the '?' symbol so to not skip any we set next = 1
+            if (letter == 0x3f) next = 1;
+            i += next - 1;
+
+            if (letter != '\n') {
+                if (font.glyphs[index].advanceX != 0) textWidth += font.glyphs[index].advanceX;
+                else textWidth += (font.recs[index].width + font.glyphs[index].offsetX);
+            }
+            else {
+                if (tempTextWidth < textWidth) tempTextWidth = textWidth;
+                byteCounter = 0;
+                textWidth = 0;
+                textHeight += (font.baseSize*lineHeight); // NOTE: Fixed line spacing of 1.5 lines
+            }
+
+            if (tempByteCounter < byteCounter) tempByteCounter = byteCounter;
+        }
+
+        if (tempTextWidth < textWidth) tempTextWidth = textWidth;
+
+        return new Vector2(
+            tempTextWidth*scaleFactor + ((tempByteCounter - 1)*spacing),
+            textHeight*scaleFactor);
+    }
 }

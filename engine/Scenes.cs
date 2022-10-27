@@ -2,6 +2,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Raylib_CsLo;
 using WhiteWorld.engine.ecs;
+using WhiteWorld.engine.interfaces;
 
 namespace WhiteWorld.engine;
 
@@ -31,7 +32,7 @@ public static partial class Engine {
         SceneLogger.Info($"Switching to scene {typeof(T).Name}");
         Initialized = false;
         StopAllSounds();
-        _loopToken = new CancellationTokenSource();
+        CreateLoopToken();
         UnloadSounds();
         UnloadTextures();
         UnloadAnimations();
@@ -108,11 +109,11 @@ public static partial class Engine {
 
         protected Level(
             string levelPath,
-            Dictionary<string, string> soundsToRegister,
-            Dictionary<string, string> texturesToRegister,
-            Dictionary<string, (string, int)> animationsToRegister,
-            Dictionary<string, string> resourcesToRegister,
-            Dictionary<string, GameObject> gameObjectsToSpawn
+            Dictionary<string, string>? soundsToRegister = null,
+            Dictionary<string, string>? texturesToRegister = null,
+            Dictionary<string, (string, int)>? animationsToRegister = null,
+            Dictionary<string, string>? resourcesToRegister = null,
+            Dictionary<string, GameObject>? gameObjectsToSpawn = null
         ) : base(
             soundsToRegister,
             texturesToRegister,
@@ -134,23 +135,23 @@ public static partial class Engine {
         }
     }
 
-    public abstract class Scene {
+    public abstract class Scene : IUpdatable {
         
         public float CameraX { get; set; }
         public float CameraY { get; set; }
         
-        private readonly Dictionary<string, string> _soundsToRegister;
-        private readonly Dictionary<string, string> _texturesToRegister;
-        private readonly Dictionary<string, (string, int)> _animationsToRegister;
-        private readonly Dictionary<string, string> _resourcesToRegister;
-        private readonly Dictionary<string, GameObject> _gameObjectsToSpawn;
+        private readonly Dictionary<string, string>? _soundsToRegister;
+        private readonly Dictionary<string, string>? _texturesToRegister;
+        private readonly Dictionary<string, (string, int)>? _animationsToRegister;
+        private readonly Dictionary<string, string>? _resourcesToRegister;
+        private readonly Dictionary<string, GameObject>? _gameObjectsToSpawn;
 
         protected Scene(
-            Dictionary<string, string> soundsToRegister,
-            Dictionary<string, string> texturesToRegister,
-            Dictionary<string, (string, int)> animationsToRegister,
-            Dictionary<string, string> resourcesToRegister,
-            Dictionary<string, GameObject> gameObjectsToSpawn
+            Dictionary<string, string>? soundsToRegister = null,
+            Dictionary<string, string>? texturesToRegister = null,
+            Dictionary<string, (string, int)>? animationsToRegister = null,
+            Dictionary<string, string>? resourcesToRegister = null,
+            Dictionary<string, GameObject>? gameObjectsToSpawn = null
         ) {
             _soundsToRegister = soundsToRegister;
             _texturesToRegister = texturesToRegister;
@@ -159,39 +160,47 @@ public static partial class Engine {
             _gameObjectsToSpawn = gameObjectsToSpawn;
         }
 
-        public void Load() {
-            foreach (var (id, sound) in _soundsToRegister) {
-                LoadSound(id, sound);
-            }
-            
-            foreach (var (id, texture) in _texturesToRegister) {
-                LoadTexture(id, texture);
-            }
-            
-            foreach (var (id, (texture, delay)) in _animationsToRegister) {
-                LoadAnimation(id, texture, delay);
-            }
-            
-            foreach (var (id, resource) in _resourcesToRegister) {
-                LoadResource(id, resource);
-            }
-            
-            foreach (var (id, gameObject) in _gameObjectsToSpawn) {
-                SpawnGameObject(id, gameObject);
-            }
+        public void Load(bool persistent = false) {
+            if (_soundsToRegister != null)
+                foreach (var (id, sound) in _soundsToRegister)
+                {
+                    LoadSound(id, sound, persistent);
+                }
+
+            if (_texturesToRegister != null)
+                foreach (var (id, texture) in _texturesToRegister)
+                {
+                    LoadTexture(id, texture, persistent);
+                }
+
+            if (_animationsToRegister != null)
+                foreach (var (id, (texture, delay)) in _animationsToRegister)
+                {
+                    LoadAnimation(id, texture, delay, persistent);
+                }
+
+            if (_resourcesToRegister != null)
+                foreach (var (id, resource) in _resourcesToRegister)
+                {
+                    LoadResource(id, resource, persistent);
+                }
+
+            if (_gameObjectsToSpawn != null)
+                foreach (var (id, gameObject) in _gameObjectsToSpawn)
+                {
+                    SpawnGameObject(id, gameObject, persistent);
+                }
 
             foreach (var (_, (gameObject, _)) in GameObjects) {
                 gameObject.InitScripts();
             }
             
-            OnLoad();
+            OnInit();
         }
 
-        // ReSharper disable once MemberCanBeProtected.Global
-        public abstract void OnLoad();
-        
-        public abstract void OnUpdate();
-        
-        public abstract void OnTick();
+        public virtual void OnInit() {}
+        public virtual void OnTick() {}
+        public virtual void OnUpdate() {}
+        public virtual void OnGui() {}
     }
 }

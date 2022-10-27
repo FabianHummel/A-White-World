@@ -47,12 +47,8 @@
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/dialogue-box.png
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore-intro-guy.gif
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore-intro-sea.gif
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/shaders/curtain.fs
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/.DS_Store
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/music/seashore-waves.wav
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-1.wav
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-2.wav
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/text/text-3.wav
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/White World.deps.json
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/White World.runtimeconfig.json
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/White World.dll
@@ -81,8 +77,6 @@
 /Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.pdb
 /Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/White World.genruntimeconfig.cache
 /Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/ref/White World.dll
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/dialogue/dialogue-pop-1.wav
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/dialogue/dialogue-pop-2.wav
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/levels/seashore.json
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/Newtonsoft.Json.dll
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-down-left.gif.bak
@@ -96,3 +90,22 @@
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/sand/sand-trbl-2.png
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/sand/sand-trbl-3.png
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/sand/sand-trbl-4.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/dialogue-box-options.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/inventory.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/items/stick.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/shaders/blur.fs
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/cycle-1.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/cycle-2.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/pop-1.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/pop-2.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/select-1.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/select-2.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/text-1.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/text-2.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/random/text-3.wav
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/arrow-down.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/arrow-left.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/arrow-right.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/arrow-up.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/enter.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/g.png

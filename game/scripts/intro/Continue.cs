@@ -3,7 +3,7 @@ using WhiteWorld.engine;
 using WhiteWorld.engine.ecs;
 using WhiteWorld.game.scenes;
 using WhiteWorld.utility;
-using Transform = WhiteWorld.engine.ecs.scripts.Transform;
+using Transform = WhiteWorld.engine.scripts.Transform;
 
 namespace WhiteWorld.game.scripts.intro;
 

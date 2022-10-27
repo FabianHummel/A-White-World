@@ -11,6 +11,19 @@ public static partial class Engine {
     private static readonly bool LoopEnabled = true;
     private static CancellationTokenSource _loopToken = new();
     
+    private static void LoadSounds() {
+        SoundLogger.Info("Loading sounds...");
+        LoadSound("Text 1", @"assets/sounds/random/text-1.wav", persistent: true);
+        LoadSound("Text 2", @"assets/sounds/random/text-2.wav", persistent: true);
+        LoadSound("Text 3", @"assets/sounds/random/text-3.wav", persistent: true);
+        LoadSound("Pop 1", @"assets/sounds/random/pop-1.wav", persistent: true);
+        LoadSound("Pop 2", @"assets/sounds/random/pop-2.wav", persistent: true);
+        LoadSound("Cycle 1", @"assets/sounds/random/cycle-1.wav", persistent: true);
+        LoadSound("Cycle 2", @"assets/sounds/random/cycle-2.wav", persistent: true);
+        LoadSound("Select 1", @"assets/sounds/random/select-1.wav", persistent: true);
+        LoadSound("Select 2", @"assets/sounds/random/select-2.wav", persistent: true);
+    }
+
     public static Sound LoadSound(string name, string resource, bool persistent = false) {
         SoundLogger.Info($"Loading sound {name} from {resource}");
         var instance = Raylib.LoadSound(resource);
@@ -31,6 +44,10 @@ public static partial class Engine {
         }
     }
 
+    private static void CreateLoopToken() {
+        _loopToken = new CancellationTokenSource();
+    }
+
     public static void DumpSounds() {
         var query = RegisteredSounds.Select(kvp =>
             $"[Sound] {kvp.Key}: " +
@@ -38,7 +55,7 @@ public static partial class Engine {
             $"persistent: {kvp.Value.persistent}; "
         );
         
-        SoundLogger.Debug(query.Prepend("Dumping Sounds:").ToArray());
+        SoundLogger.Debug(query.Prepend("Dumping Sounds:"));
     }
     
     private static Sound GetSound(string name) {

@@ -2,18 +2,33 @@ using Raylib_CsLo;
 
 namespace WhiteWorld.engine; 
 
-public static unsafe partial class Engine {
+public static partial class Engine {
 
+    private static readonly Registry<Shader> RegisteredShaders = new();
     private static readonly Logger ShaderLogger = GetLogger("Engine/Shader");
 
     private static void LoadShaders() {
-        FontLogger.Info("Loading shaders...");
-        // _curtainShader = Raylib.LoadShader(
-        //     "", Raylib.TextFormat("assets/shaders/curtain.fs", 330)
-        // );
+        ShaderLogger.Info("Loading shaders...");
+        var blurShader = Raylib.LoadShader(null, Raylib.TextFormat("assets/shaders/blur.fs", 330));
+        RegisteredShaders.Add("Blur", (blurShader, true));
+    }
+
+    public static Shader GetShader(string name) {
+        if (RegisteredShaders.TryGetValue(name, out var shader)) {
+            return shader.item;
+        }
+        ShaderLogger.Error($"Shader {name} not found");
+        return default;
     }
     
     private static void UnloadShaders() {
-        // Raylib.UnloadShader(_curtainShader);
+        var query = from shader in RegisteredShaders
+            where !shader.Value.persistent
+            select shader;
+
+        foreach (var (id, (shader, _)) in query) {
+            RegisteredShaders.Remove(id);
+            Raylib.UnloadShader(shader);
+        }
     }
 }
