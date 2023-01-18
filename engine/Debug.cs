@@ -6,7 +6,7 @@ using Transform = WhiteWorld.engine.scripts.Transform;
 namespace WhiteWorld.engine;
 
 public static partial class Engine {
-    public const bool Debugging = true;
+    public static bool Debugging = true;
 
     private static void DrawFps() {
         if (!Debugging) return;
@@ -23,11 +23,11 @@ public static partial class Engine {
     public static void DebugTransform(Transform transform) {
         if (!Debugging) return;
         DrawOutline(
-            transform.X, transform.Y,
+            transform.X, transform.Y - transform.Z,
             transform.W, transform.H,
             Raylib.RED
         );
-        DrawSceneText($"{transform.X},{transform.Y} {transform.W}x{transform.H}", transform.X, transform.Y - 4, 4, 1.0f, Raylib.DARKGRAY);
+        DrawSceneText($"{transform.X},{transform.Y},{transform.Z} {transform.W}x{transform.H}", transform.X, transform.Y - transform.Z - 4, 4, 1.0f, Raylib.DARKGRAY);
     }
 
     public static void DebugPoint(Vector2 point) {

@@ -1,4 +1,9 @@
+using System.Text;
 using Raylib_CsLo;
+using WhiteWorld.engine.gui;
+using WhiteWorld.utility;
+using RayColor = Raylib_CsLo.Color;
+using Color = WhiteWorld.engine.gui.Color;
 
 namespace WhiteWorld.engine;
 
@@ -21,11 +26,13 @@ public static partial class Engine {
         public Action? OnContinue { get; }
 
         public Dialogue(string title, string text, DialogueOption[] options, Action? onContinue) {
+            this.OnContinue = onContinue;
+            this.Options = options;
             this.Title = title;
             this.Text = text;
-            this.Options = options;
-            this.OnContinue = onContinue;
         }
+
+        public bool HasOptions => Options.Length > 0;
     }
 
     private static readonly List<Dialogue> DialogueQueue = new();
@@ -34,7 +41,7 @@ public static partial class Engine {
     private static int _selectedDialogueOption;
     
     private static string _dialogueText = "";
-    private static int _dialogueTextFrame = 0;
+    private static int _dialogueTextFrame;
 
     public static bool DialogueOpen => _dialogueOpen;
 
@@ -55,7 +62,7 @@ public static partial class Engine {
     }
     
     private static bool HasDialogueOptions() {
-        return _currentDialogue.Options.Length > 0;
+        return _currentDialogue.HasOptions;
     }
 
     private static void TryNextDialogue() {
@@ -109,8 +116,6 @@ public static partial class Engine {
 
     private static void UpdateDialogue() {
         if (DialogueOpen) {
-            DrawDialogue();
-
             if (HasDialogueOptions()) {
                 if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP)) {
                     PreviousDialogueOption();
@@ -149,87 +154,41 @@ public static partial class Engine {
         }
     }
 
-    private static void DrawDialogue() {
+    private static void DrawDialogue(GuiContext ctx) {
+        if (!DialogueOpen) return;
 
-        int centerToLeftAlignX = -_dialogueBoxWidth / 2;
-        int endToTopAlignY = -_dialogueBoxHeight;
+        ctx.AlignX = Align.Center;
+        ctx.AlignY = Align.End;
 
-        if (HasDialogueOptions()) {
-            DrawUiImage("Dialogue Box Options", 0, -5, ax: Align.Center, ay: Align.End);
-            DrawOptions();
-        } else {
-            DrawUiImage("Dialogue Box", 0, -5, ax: Align.Center, ay: Align.End);
-        }
-        
-        DrawText();
-        DrawTitle();
-
-        void DrawText() {
-            DrawUiText(
-                _dialogueText,
-                centerToLeftAlignX + 7,
-                endToTopAlignY + 3,
-                5, 1.0f,
-                Raylib.DARKGRAY,
-                Align.Center,
-                Align.End );
-        }
-
-        void DrawTitle() {
-            var len = GetTextLength(MainFont, _currentDialogue.Title, 5, 1.0f);
-            DrawUiRectangle(
-                centerToLeftAlignX + 10 - 2,
-                endToTopAlignY - 5 - 1,
-                (int) len.X + 4,
-                (int) len.Y + 2,
-                Raylib.DARKGRAY,
-                Align.Center,
-                Align.End );
-            DrawUiRectangle(
-                centerToLeftAlignX + 10 - 1,
-                endToTopAlignY - 5,
-                (int) len.X + 2,
-                (int) len.Y,
-                Raylib.RAYWHITE,
-                Align.Center,
-                Align.End );
-            DrawUiText(
-                _currentDialogue.Title,
-                centerToLeftAlignX + 10,
-                endToTopAlignY - 5,
-                5, 1.0f,
-                Raylib.DARKGRAY,
-                Align.Center,
-                Align.End );
-        }
-
-        void DrawOptions() {
-            var heightSum = 0;
-            for (int i = 0; i < _currentDialogue.Options.Length; i++) {
-                var option = _currentDialogue.Options[i];
-                var selected = _selectedDialogueOption == i;
-                if (selected) {
-                    DrawUiText(
-                        option.Option,
-                        centerToLeftAlignX + 80,
-                        endToTopAlignY + 1 + heightSum + i - 1,
-                        5, 1.0f,
-                        Raylib.DARKGRAY,
-                        Align.Center,
-                        Align.End );
-                } else {
-                    DrawUiText(
-                        option.Option,
-                        centerToLeftAlignX + 80,
-                        endToTopAlignY + 1 + heightSum + i,
-                        5, 1.0f,
-                        Raylib.LIGHTGRAY,
-                        Align.Center,
-                        Align.End );
-                }
-
-                heightSum += (int) GetTextLength(MainFont, option.Option, 5, 1.0f).Y;
+        ctx.CreatePane(0, -5, _dialogueBoxWidth, _dialogueBoxHeight, ctx => {
+            if (HasDialogueOptions()) {
+                ctx.DrawTexture("Dialogue Box Options", 0, 0);
+                ctx.CreatePane(6, 6, (ctx.W - 12) * 0.68m, ctx.H - 12, DrawDialogueText);
+                ctx.CreatePane(3 + (ctx.W - 6) * 0.68m, 3, (ctx.W - 6) * 0.32m, ctx.H - 6, DrawDialogueOptions);
+            } else {
+                ctx.DrawTexture("Dialogue Box", 0, 0);
+                ctx.CreatePane(6, 6, ctx.W - 12, ctx.H - 12, DrawDialogueText);
             }
-        }
+            
+            DrawTitle(ctx);
+        });
+    }
+
+    private static void DrawTitle(GuiContext ctx) {
+        ctx.AlignX = Align.Start;
+        ctx.AlignY = Align.Start;
+        var titleLength = (int) GetTextLength(MainFont, _currentDialogue.Title, 5, 1.0f).X;
+        ctx.DrawRectangle(7-2, -1, titleLength + 4, 7, Color.Black);
+        ctx.DrawRectangle(7-1, 0, titleLength + 2, 5, Color.White);
+        ctx.DrawText(_currentDialogue.Title, 7, 0, 5, Color.Black);
+    }
+
+    private static void DrawDialogueText(GuiContext ctx) {
+        var brokenText = _dialogueText.LineBreaks(MainFont, 5, (float) ctx.W);
+        ctx.DrawText(brokenText, 0, 0, 5, Color.Black);
+    }
+    
+    private static void DrawDialogueOptions(GuiContext ctx) {
+        // TODO: Make this not a mess
     }
 }

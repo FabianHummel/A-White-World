@@ -11,13 +11,13 @@ public class TestInteraction : Interactable {
         Engine.QueueDialogue("Box", "Guess what, I am a box!");
         Engine.QueueDialogue("Box", "But not like any other box...");
         Engine.QueueDialogue("Box", "Who are you?", new[] {
-            new Engine.DialogueOption("A lonely\nseamen", () => {
-                Engine.QueueDialogue("Box", "We could be friends! Then you would'nt\nbe so lonely anymore!");
+            new Engine.DialogueOption("A lonely sailor", () => {
+                Engine.QueueDialogue("Box", "We could be friends! Then you wouldn't be so lonely anymore!");
             }),
-            new Engine.DialogueOption("What is this\nplace?", () => {
+            new Engine.DialogueOption("What is this place?", () => {
                 Engine.QueueDialogue("Box", "Oh, this is my home.");
-                Engine.QueueDialogue("Box", "I have been here on this spot\nfor several years now.");
-                Engine.QueueDialogue("Box", "Sometimes I wish I had legs\nlike everyone else here...");
+                Engine.QueueDialogue("Box", "I have been here on this spot for several years now.");
+                Engine.QueueDialogue("Box", "Sometimes I wish I had legs like everyone else here...");
             })
         });
     }

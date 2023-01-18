@@ -1,4 +1,5 @@
 using WhiteWorld.engine.ecs;
+using WhiteWorld.engine.gui;
 using WhiteWorld.utility;
 
 namespace WhiteWorld.engine; 
@@ -9,10 +10,14 @@ public static partial class Engine {
     private static readonly Logger GameObjectLogger = GetLogger("Engine/GameObject");
     
     public static GameObject SpawnGameObject(string name, GameObject gameObject, bool persistent = false) {
+        GameObjectLogger.Info($"Spawning {name} with {gameObject.GetScriptCount()} scripts attached");
         gameObject.Name = name;
         gameObject.Load();
-        GameObjectLogger.Info($"Spawning {name} with {gameObject.GetScriptCount()} scripts attached");
         GameObjects.Add(name, ( gameObject, persistent ));
+        
+        if (Initialized) {
+            gameObject.InitScripts();
+        }
         return gameObject;
     }
     
@@ -32,9 +37,9 @@ public static partial class Engine {
         }
     }
 
-    private static void UpdateGui(IReadOnlyList<GameObject> targets) {
+    private static void UpdateGui(IReadOnlyList<GameObject> targets, GuiContext ctx) {
         foreach (var gameObject in targets) {
-            gameObject.UpdateGui();
+            gameObject.UpdateGui(ctx);
         }
     }
 
@@ -64,6 +69,6 @@ public static partial class Engine {
             $"persistent: {kvp.Value.persistent}; "
         );
         
-        GameObjectLogger.Debug(query.Prepend("Dumping GameObjects:"));
+        GameObjectLogger.Debug(query.Prepend("Dumping GameObjects:").ToArray());
     }
 }

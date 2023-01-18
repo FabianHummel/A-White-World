@@ -1,4 +1,5 @@
 using Raylib_CsLo;
+using WhiteWorld.utility;
 
 namespace WhiteWorld.engine; 
 
@@ -35,7 +36,7 @@ public static unsafe partial class Engine {
             $"persistent: {kvp.Value.persistent}; "
         );
         
-        SoundLogger.Debug(query.Prepend("Dumping Textures:"));
+        SoundLogger.Debug(query.Prepend("Dumping Textures:").ToArray());
     }
     
     public static Texture GetTexture(string name) {
@@ -62,21 +63,21 @@ public static unsafe partial class Engine {
             _delay = delay;
         }
         
-        public void NextFrame() {
+        public void Next() {
             _frame = (_frame + 1) % _frameCount;
             var offset = (uint) (_frame * _image.width * _image.height);
             Raylib.UpdateTexture(Texture, (uint*)_image.data + offset);
         }
 
-        public void ResetAnimation() {
+        public void Reset() {
             _startFrame = Frame;
             _frame = 0;
         }
 
-        public void TickAnimation() {
+        public void Tick() {
             var currentTick = Frame - _startFrame;
             if (currentTick % _delay == 0) {
-                NextFrame();
+                Next();
             }
         }
         
@@ -86,18 +87,25 @@ public static unsafe partial class Engine {
         }
     }
 
-    public static Animation LoadAnimation(string id, string animation, int delay, bool persistent = false) {
+    public static Animation LoadAnimation(string id, string animation, bool persistent = false) {
         TextureLogger.Info($"Loading animation {animation}");
-        var instance = new Animation(animation, delay);
+        var instance = new Animation(animation, ImageUtil.GifDelay(animation) / Engine.TargetTps);
         RegisteredAnimations.Add(id,
             ( instance, persistent )
+        );
+        RegisteredTextures.Add(id,
+            ( instance.Texture, persistent )
         );
         return instance;
     }
     
+    public static void ResetAnimation(string animation) {
+        GetAnimation(animation).Reset();
+    }
+
     private static void TickAnimations() {
         foreach (var animation in RegisteredAnimations.Values.Select(anim => anim.item)) {
-            animation.TickAnimation();
+            animation.Tick();
         }
     }
 
@@ -119,7 +127,7 @@ public static unsafe partial class Engine {
             $"persistent: {kvp.Value.persistent}; "
         );
         
-        SoundLogger.Debug(query.Prepend("Dumping Animations:"));
+        SoundLogger.Debug(query.Prepend("Dumping Animations:").ToArray());
     }
     
     public static Animation GetAnimation(string id) {

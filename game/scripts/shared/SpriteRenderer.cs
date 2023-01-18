@@ -19,6 +19,6 @@ public class SpriteRenderer : GameScript {
     }
 
     public override void OnUpdate() {
-        Engine.DrawSceneImage(SpriteName, _transform.X, _transform.Y + _transform.Z);
+        Engine.DrawSceneImage(SpriteName, _transform.X, _transform.Y - _transform.Z);
     }
 }

@@ -25,7 +25,7 @@ void main() {
 
     for (int i = -size; i <= size; ++i) {
         for (int j = -size; j <= size; ++j) {
-            finalColor.rgb += texture(texture0, (fragTexCoord + vec2(i, j) * 3 / vec2(width, height))).rgb;
+            finalColor.rgb += texture(texture0, (fragTexCoord + vec2(i, j) * 4 / vec2(width, height))).rgb;
             count += 1;
         }
     }

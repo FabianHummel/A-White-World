@@ -4,12 +4,7 @@ using WhiteWorld.utility;
 
 namespace WhiteWorld.engine;
 
-public static partial class Engine {
-    
-    public enum Align {
-        Start, Center, End
-    }
-    
+public static partial class     Engine {
     public static int PixelSize { get; private set; } = 4;
     
     private static int _prevWindowWidth;
@@ -41,62 +36,23 @@ public static partial class Engine {
         }
     }
     
-    public static void DrawUiTexture(Texture texture, int x, int y, float scale = 1.0f, Align ax = Align.Start, Align ay = Align.Start) {
-        var posX = ax switch {
-            Align.Start => x,
-            Align.Center => x + CanvasWidth / 2 - texture.width * scale / 2,
-            Align.End => x + CanvasWidth - texture.width * scale,
-            _ => throw new Exception("Invalid align")
-        };
-        var posY = ay switch {
-            Align.Start => y,
-            Align.Center => y + CanvasHeight / 2 - texture.height * scale / 2,
-            Align.End => y + CanvasHeight - texture.height * scale,
-            _ => throw new Exception("Invalid align")
-        };
-        Raylib.DrawTextureEx(texture, new Vector2(posX, posY) * PixelSize, 0, PixelSize * scale, Raylib.WHITE);
+    public static void DrawUiTexture(Texture texture, int x, int y, float scale = 1.0f) {
+        Raylib.DrawTextureEx(texture, new Vector2(x, y) * PixelSize, 0, PixelSize * scale, Raylib.WHITE);
     }
 
-    public static void DrawSceneTexture(Texture texture, int x, int y) {
+    public static void DrawSceneTexture(Texture texture, int x, int y, float rotation = 0f) {
         if (InViewport(new Vector2(x, y), new Vector2(texture.width, texture.height))) {
-            Raylib.DrawTextureEx(texture, new Vector2(x, y) * PixelSize - new Vector2(_scene.CameraX, _scene.CameraY), 0, PixelSize, Raylib.WHITE);
+            Raylib.DrawTextureEx(texture, new Vector2(x, y) * PixelSize - new Vector2(_scene.CameraX, _scene.CameraY), rotation, PixelSize, Raylib.WHITE);
         }
     }
 
-    public static void DrawUiImage(string image, int x, int y, float scale = 1.0f, Align ax = Align.Start, Align ay = Align.Start) {
+    public static void DrawUiImage(string image, int x, int y, float scale = 1.0f) {
         var texture = GetTexture(image);
-        DrawUiTexture(texture, x, y, scale, ax, ay);
+        DrawUiTexture(texture, x, y, scale);
     }
 
     public static void DrawSceneImage(string image, int x, int y) {
         var texture = GetTexture(image);
-        DrawSceneTexture(texture, x, y);
-    }
-
-    public static void StartAnimation(string image) {
-        var animation = GetAnimation(image);
-        animation.ResetAnimation();
-    }
-
-    public static void DrawUiAnimation(string image, int x, int y, Align ax = Align.Start, Align ay = Align.Start) {
-        var texture = GetAnimation(image).Texture;
-        var posX = ax switch {
-            Align.Start => x,
-            Align.Center => x + CanvasWidth / 2 - texture.width / 2,
-            Align.End => x + CanvasWidth - (texture.width),
-            _ => throw new Exception("Invalid align")
-        };
-        var posY = ay switch {
-            Align.Start => y,
-            Align.Center => y + CanvasHeight / 2 - texture.height / 2,
-            Align.End => y + CanvasHeight - (texture.height),
-            _ => throw new Exception("Invalid align")
-        };
-        DrawUiTexture(texture, posX, posY);
-    }
-    
-    public static void DrawSceneAnimation(string image, int x, int y) {
-        var texture = GetAnimation(image).Texture;
         DrawSceneTexture(texture, x, y);
     }
     
@@ -104,74 +60,16 @@ public static partial class Engine {
         return RaylibExtensions.MeasureTextEx(font, text, fontSize, 0, lineHeight);
     }
 
-    public static void DrawUiText(string text, int x, int y, int fontSize, float lineHeight, Color color, Align ax = Align.Start, Align ay = Align.Start) {
-        var posX = ax switch {
-            Align.Start => x,
-            Align.Center => x + CanvasWidth / 2,
-            Align.End => x + CanvasWidth,
-            _ => throw new Exception("Invalid align")
-        };
-        var posY = ay switch {
-            Align.Start => y,
-            Align.Center => y + CanvasHeight / 2,
-            Align.End => y + CanvasHeight,
-            _ => throw new Exception("Invalid align")
-        };
-
-        RaylibExtensions.DrawTextEx(MainFont, text.ToLower(), new Vector2(posX, posY) * PixelSize, fontSize * PixelSize, 0, lineHeight, color);
-    }
-    
-    public static void DrawUiTextCentered(string text, int x, int y, int fontSize, float lineHeight, Color color, Align ax = Align.Start, Align ay = Align.Start) {
-        var length = GetTextLength(MainFont, text, fontSize * PixelSize, lineHeight) / PixelSize;
-        var posX = ax switch {
-            Align.Start => x,
-            Align.Center => x + CanvasWidth / 2 - (int) (length.X / 2),
-            Align.End => x + CanvasWidth - (int) length.X,
-            _ => throw new Exception("Invalid align")
-        };
-        var posY = ay switch {
-            Align.Start => y,
-            Align.Center => y + CanvasHeight / 2 - (int) (length.Y / 2),
-            Align.End => y + CanvasHeight - (int) length.Y,
-            _ => throw new Exception("Invalid align")
-        };
-        RaylibExtensions.DrawTextEx(MainFont, text.ToLower(), new Vector2(posX, posY) * PixelSize, fontSize * PixelSize, 0, lineHeight, color);
+    public static void DrawUiText(string text, int x, int y, int fontSize, float lineHeight, Color color) {
+        RaylibExtensions.DrawTextEx(MainFont, text.ToLower(), new Vector2(x, y) * PixelSize, fontSize * PixelSize, 0, lineHeight, color);
     }
     
     public static void DrawSceneText(string text, int x, int y, int fontSize, float lineHeight, Color color) {
         RaylibExtensions.DrawTextEx(MainFont, text.ToLower(), new Vector2(x * PixelSize - _scene.CameraX, y * PixelSize - _scene.CameraY), fontSize * PixelSize, 0, lineHeight, color);
     }
 
-    public static void DrawUiRectangle(int x, int y, int width, int height, Color color, Align ax = Align.Start, Align ay = Align.Start) {
-        var posX = ax switch {
-            Align.Start => x,
-            Align.Center => x + CanvasWidth / 2,
-            Align.End => x + CanvasWidth,
-            _ => throw new Exception("Invalid align")
-        };
-        var posY = ay switch {
-            Align.Start => y,
-            Align.Center => y + CanvasHeight / 2,
-            Align.End => y + CanvasHeight,
-            _ => throw new Exception("Invalid align")
-        };
-        Raylib.DrawRectangle(posX * PixelSize, posY * PixelSize, width * PixelSize, height * PixelSize, color);
-    }
-
-    public static void DrawUiRectangleCentered(int x, int y, int width, int height, Color color, Align ax = Align.Start, Align ay = Align.Start) {
-        var posX = ax switch {
-            Align.Start => x,
-            Align.Center => x + CanvasWidth / 2 - width / 2,
-            Align.End => x + CanvasWidth - width,
-            _ => throw new Exception("Invalid align")
-        };
-        var posY = ay switch {
-            Align.Start => y,
-            Align.Center => y + CanvasHeight / 2 - height / 2,
-            Align.End => y + CanvasHeight - height,
-            _ => throw new Exception("Invalid align")
-        };
-        Raylib.DrawRectangle(posX * PixelSize, posY * PixelSize, width * PixelSize, height * PixelSize, color);
+    public static void DrawUiRectangle(int x, int y, int width, int height, Color color) {
+        Raylib.DrawRectangle(x * PixelSize, y * PixelSize, width * PixelSize, height * PixelSize, color);
     }
     
     public static void DrawSceneRectangle(int x, int y, int width, int height, Color color) {
@@ -180,6 +78,8 @@ public static partial class Engine {
         }
     }
 
+
+    // TODO: Replace with shader
     public static void DrawCurtain(int cx, int cy, float or, float ir, Color c, float br = 0.0f, Color bc = default) {
         for (var y = 0; y < CanvasHeight; y++) {
             for (var x = 0; x < CanvasWidth; x++) {

@@ -37,8 +37,8 @@ public class LevelRenderer : GameScript {
                 var tile = _tiles[i, j];
                 switch (tile) {
                     default:
-                        var variants = _textures[tile.paletteId];
-                        Engine.DrawSceneTexture(variants[tile.variant], i * 16, j * 16);
+                        var variant = _textures[tile.paletteId][tile.variant];
+                        Engine.DrawSceneTexture(variant, i * 16, j * 16);
                         break;
 
                     case (-1, _):

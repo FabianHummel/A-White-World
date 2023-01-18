@@ -28,21 +28,13 @@ public class InteractionController : GameScript {
     }
 
     private Interactable? Interact(PlayerController.Direction direction) {
-        switch (direction) {
-            default: return null;
-            case PlayerController.Direction.Left: {
-                return Raycast(new Vector2(-1f, 0f));
-            }
-            case PlayerController.Direction.Right: {
-                return Raycast(new Vector2(1f, 0f));
-            }
-            case PlayerController.Direction.Up: {
-                return Raycast(new Vector2(0f, -1f));
-            }
-            case PlayerController.Direction.Down: {
-                return Raycast(new Vector2(0f, 1f));
-            }
-        }
+        return direction switch {
+            PlayerController.Direction.Left => Raycast(new Vector2(-1f, 0f)),
+            PlayerController.Direction.Right => Raycast(new Vector2(1f, 0f)),
+            PlayerController.Direction.Up => Raycast(new Vector2(0f, -1f)),
+            PlayerController.Direction.Down => Raycast(new Vector2(0f, 1f)),
+            _ => null,
+        };
     }
 
     private Interactable? Raycast(Vector2 direction) {

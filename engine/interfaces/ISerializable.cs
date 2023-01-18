@@ -26,7 +26,7 @@ public class DataBuffer : List<object> {
             Engine.Error($"File {e.FileName} not found. Returning null.");
             return null;
         }
-        catch (Exception _) {
+        catch (Exception) {
             Engine.Error($"File {fileName}.json could not be read");
             return null;
         }

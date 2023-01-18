@@ -55,7 +55,7 @@ public static partial class Engine {
             $"persistent: {kvp.Value.persistent}; "
         );
         
-        SoundLogger.Debug(query.Prepend("Dumping Sounds:"));
+        SoundLogger.Debug(query.Prepend("Dumping Sounds:").ToArray());
     }
     
     private static Sound GetSound(string name) {

@@ -1,3 +1,4 @@
+using WhiteWorld.engine.gui;
 using WhiteWorld.engine.interfaces;
 
 namespace WhiteWorld.engine.ecs;
@@ -8,7 +9,7 @@ public abstract class GameScript : IUpdatable {
     public virtual void OnInit() {}
     public virtual void OnTick() {}
     public virtual void OnUpdate() {}
-    public virtual void OnGui() {}
+    public virtual void OnGui(GuiContext ctx) {}
 }
 
 public class DisallowMultipleInstancesAttribute : Attribute {}

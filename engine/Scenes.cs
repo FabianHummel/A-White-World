@@ -2,7 +2,9 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Raylib_CsLo;
 using WhiteWorld.engine.ecs;
+using WhiteWorld.engine.gui;
 using WhiteWorld.engine.interfaces;
+using WhiteWorld.utility;
 
 namespace WhiteWorld.engine;
 
@@ -111,13 +113,11 @@ public static partial class Engine {
             string levelPath,
             Dictionary<string, string>? soundsToRegister = null,
             Dictionary<string, string>? texturesToRegister = null,
-            Dictionary<string, (string, int)>? animationsToRegister = null,
             Dictionary<string, string>? resourcesToRegister = null,
             Dictionary<string, GameObject>? gameObjectsToSpawn = null
         ) : base(
             soundsToRegister,
             texturesToRegister,
-            animationsToRegister,
             resourcesToRegister,
             gameObjectsToSpawn
         ) {
@@ -142,20 +142,17 @@ public static partial class Engine {
         
         private readonly Dictionary<string, string>? _soundsToRegister;
         private readonly Dictionary<string, string>? _texturesToRegister;
-        private readonly Dictionary<string, (string, int)>? _animationsToRegister;
         private readonly Dictionary<string, string>? _resourcesToRegister;
         private readonly Dictionary<string, GameObject>? _gameObjectsToSpawn;
 
         protected Scene(
             Dictionary<string, string>? soundsToRegister = null,
             Dictionary<string, string>? texturesToRegister = null,
-            Dictionary<string, (string, int)>? animationsToRegister = null,
             Dictionary<string, string>? resourcesToRegister = null,
             Dictionary<string, GameObject>? gameObjectsToSpawn = null
         ) {
             _soundsToRegister = soundsToRegister;
             _texturesToRegister = texturesToRegister;
-            _animationsToRegister = animationsToRegister;
             _resourcesToRegister = resourcesToRegister;
             _gameObjectsToSpawn = gameObjectsToSpawn;
         }
@@ -170,13 +167,11 @@ public static partial class Engine {
             if (_texturesToRegister != null)
                 foreach (var (id, texture) in _texturesToRegister)
                 {
-                    LoadTexture(id, texture, persistent);
-                }
-
-            if (_animationsToRegister != null)
-                foreach (var (id, (texture, delay)) in _animationsToRegister)
-                {
-                    LoadAnimation(id, texture, delay, persistent);
+                    if (ImageUtil.IsGif(texture)) {
+                        LoadAnimation(id, texture, persistent);
+                    } else {
+                        LoadTexture(id, texture, persistent);
+                    }
                 }
 
             if (_resourcesToRegister != null)
@@ -201,6 +196,6 @@ public static partial class Engine {
         public virtual void OnInit() {}
         public virtual void OnTick() {}
         public virtual void OnUpdate() {}
-        public virtual void OnGui() {}
+        public virtual void OnGui(GuiContext ctx) {}
     }
 }

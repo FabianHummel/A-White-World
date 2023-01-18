@@ -4,6 +4,6 @@ build:
 	dotnet build
 
 run:
-	dotnet exec "bin/Debug/net6.0/White World.dll"
+	dotnet run
 
 all: build run

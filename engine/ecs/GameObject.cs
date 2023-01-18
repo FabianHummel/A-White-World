@@ -1,3 +1,4 @@
+using WhiteWorld.engine.gui;
 using WhiteWorld.engine.interfaces;
 using WhiteWorld.engine.scripts;
 using WhiteWorld.utility;
@@ -57,14 +58,14 @@ public class GameObject {
         }
     }
 
-    public void UpdateGui() {
+    public void UpdateGui(GuiContext ctx) {
         foreach (var gameScript in _scripts) {
-            gameScript.OnGui();
+            gameScript.OnGui(ctx);
         }
 
         // Recursively update children
         foreach (var child in _children) {
-            child.UpdateGui();
+            child.UpdateGui(ctx);
         }
     }
 

@@ -79,8 +79,6 @@
 /Users/fabian/Documents/Projects/CSharp/White World/obj/Debug/net6.0/ref/White World.dll
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/levels/seashore.json
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/Newtonsoft.Json.dll
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-down-left.gif.bak
-/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-down-right.gif.bak
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-idle-flipped.gif
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-idle.gif
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/seaman-walking-flipped.gif
@@ -109,3 +107,10 @@
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/arrow-up.png
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/enter.png
 /Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/keybinds/g.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/.DS_Store
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/sand/.DS_Store
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/seashore/seashore-b-1.png
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seashore/ocean/ocean-b-1.gif
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/images/seaman/.DS_Store
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/music/.DS_Store
+/Users/fabian/Documents/Projects/CSharp/White World/bin/Debug/net6.0/assets/sounds/music/a-spark-of-life.wav

@@ -1,6 +1,7 @@
 using System.Numerics;
 using Raylib_CsLo;
 using WhiteWorld.engine.ecs;
+using WhiteWorld.engine.gui;
 using WhiteWorld.game.scenes;
 
 namespace WhiteWorld.engine;
@@ -36,7 +37,7 @@ public static partial class Engine {
         Raylib.InitWindow(1100, 620, "A White World");
         Raylib.SetTargetFPS(60);
         Raylib.InitAudioDevice();
-        ReloadRenderTexture();
+        GameTexture = Raylib.LoadRenderTexture(1100, 620);
         LoadFonts();
         LoadShaders();
         LoadItems();
@@ -45,7 +46,6 @@ public static partial class Engine {
 
         SetSceneImmediate<Intro>();
         
-
         EngineLogger.Info("Engine initialized.");
         Initialized = true;
     }
@@ -68,6 +68,9 @@ public static partial class Engine {
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_F4)) {
             DumpAnimations();
         }
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_TAB)) {
+            Debugging = !Debugging;
+        }
 
         // Sort entities by their position in 3D space
         //  Y ↑   ↗ Z
@@ -75,7 +78,7 @@ public static partial class Engine {
         //    +⎯⎯⎯> X
         var renderSortedQuery =
             from gameObject in GameObjects.Values.Select(pair => pair.item)
-            orderby gameObject.Transform.Z, gameObject.Transform.Y
+            orderby gameObject.Transform.Z, gameObject.Transform.Y + gameObject.Transform.H
             select gameObject;
         
         var renderSortedList = renderSortedQuery.ToList();
@@ -116,30 +119,38 @@ public static partial class Engine {
     }
 
     private static void DrawScene(IReadOnlyList<GameObject> targets) {
-        if (Initialized) {
-            if (_tickTimeCounter >= 1.0f / TargetTps) {
-                _tickTimeCounter = 0;
-                Frame++;
+        if (!Initialized) return;
+        
+        if (_tickTimeCounter >= 1.0f / TargetTps) {
+            _tickTimeCounter = 0;
+            Frame++;
                 
-                TickDialogue();
-                TickAnimations();
-                TickGameObjects(targets);
-                _scene.OnTick();
-            }
-            
-            UpdateGameObjects(targets);
-            _scene.OnUpdate();
+            TickDialogue();
+            TickAnimations();
+            TickGameObjects(targets);
+            _scene.OnTick();
         }
+            
+        UpdateDialogue();
+        UpdateGameObjects(targets);
+        _scene.OnUpdate();
     }
 
     private static void DrawGui(IReadOnlyList<GameObject> targets) {
-        if (Initialized) {
-            UpdateGui(targets);
-            _scene.OnGui();
-        }
+        if (!Initialized) return;
         
-        UpdateDialogue(); // Call this after the scene update so that the
-                          // dialogue box can be drawn on top of all scene objects.
+        var ctx = new GuiContext {
+            X = 0,
+            Y = 0,
+            W = CanvasWidth,
+            H = CanvasHeight,
+        };
+
+        UpdateGui(targets, ctx);
+        _scene.OnGui(ctx);
+
+        DrawDialogue(ctx); // Call this after the scene update so that the
+                           // dialogue box can be drawn on top of all scene objects.
 
         UpdateCurtain(); // Call this after the scene update so that the
                          // curtain can be drawn on top of everything else
@@ -149,7 +160,6 @@ public static partial class Engine {
         if (_prevWindowWidth != WindowWidth || _prevWindowHeight != WindowHeight) {
             _prevWindowWidth = WindowWidth;
             _prevWindowHeight = WindowHeight;
-
             Raylib.UnloadRenderTexture(GameTexture); // Prevent RAM-Nuke
             GameTexture = Raylib.LoadRenderTexture(WindowWidth, WindowHeight);
         }

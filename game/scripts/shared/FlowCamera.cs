@@ -27,7 +27,7 @@ public class FlowCamera : GameScript {
     }
 
     public override void OnUpdate() {
-        _smoothTime = MathUtil.Lerp(_smoothTime, TargetSmoothTime, 0.05f);
+        _smoothTime = MathUtil.Lerp(_smoothTime, TargetSmoothTime, Engine.DeltaTime * 5f);
 
         var currentPosition = new Vector2(_level.CameraX, _level.CameraY);
 

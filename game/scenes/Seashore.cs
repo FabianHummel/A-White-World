@@ -12,33 +12,44 @@ public class Seashore : PlayerScene {
     public Seashore() : base(
         @"assets/levels/seashore.json",
 
-        soundsToRegister: new Dictionary<string, string>() {
+        soundsToRegister: new() {
             { "Seashore Waves", @"assets/sounds/music/seashore-waves.wav" },
             { "Ocean", @"assets/sounds/ambient/ocean.wav" }
         },
 
-        texturesToRegister: new Dictionary<string, string> {
+        texturesToRegister: new() {
             { "Sand TRBL 1", @"assets/images/seashore/sand/sand-trbl-1.png" },
             { "Sand TRBL 2", @"assets/images/seashore/sand/sand-trbl-2.png" },
             { "Sand TRBL 3", @"assets/images/seashore/sand/sand-trbl-3.png" },
-            { "Sand TRBL 4", @"assets/images/seashore/sand/sand-trbl-4.png" }
+            { "Sand TRBL 4", @"assets/images/seashore/sand/sand-trbl-4.png" },
+
+//            { "Seashore T 1", @"assets/images/seashore/seashore/seashore-t-1.png" },
+//            { "Seashore R 1", @"assets/images/seashore/seashore/seashore-r-1.png" },
+            { "Seashore B 1", @"assets/images/seashore/seashore/seashore-b-1.png" },
+//            { "Seashore L 1", @"assets/images/seashore/seashore/seashore-l-1.png" },
+
+//            { "Ocean T 1", @"assets/images/seashore/ocean/ocean-t-1.gif" },
+//            { "Ocean R 1", @"assets/images/seashore/ocean/ocean-r-1.gif" },
+            { "Ocean B 1", @"assets/images/seashore/ocean/ocean-b-1.gif" },
+//            { "Ocean L 1", @"assets/images/seashore/ocean/ocean-l-1.gif" },
         },
 
-        gameObjectsToSpawn: new Dictionary<string, GameObject> {
+        gameObjectsToSpawn: new() {
             { "Level Renderer", new GameObject()
+                .WithTransform(new Transform(0, 0, -1, 0, 0))
                 .AddScript(new LevelRenderer())
             },
 
             { "Test Collider", new GameObject()
-                .WithTransform(new Transform(20, 20, 1, 10, 10))
+                .WithTransform(new Transform(20, 20, 0, 10, 10))
                 .AddScript(new Collider(Vector2.Zero, Vector2.One * 10))
                 .AddScript(new TestInteraction())
             },
 
             { "Test Collider 2", new GameObject()
-                .WithTransform(new Transform(45, 25, 1, 20, 10))
+                .WithTransform(new Transform(45, 25, 0, 20, 10))
                 .AddScript(new Collider(Vector2.Zero, new Vector2(20, 10)))
-                .AddScript(new SimpleInteraction("Box 2", "Hello, I'm a box!", "Hello, don't mind me..."))
+                .AddScript(new SimpleInteraction("Box 2", "Hello, I'm a box!", "Don't mind me..."))
             }
         }
     ) {}
@@ -51,7 +62,7 @@ public class Seashore : PlayerScene {
             Engine.QueueDialogue("Wind's voices", "Hey, wake up!", () => {
                 Console.WriteLine("Continuing Dialogue");
             });
-            Engine.QueueDialogue("Wind's voices", "You have been sleeping\nall day long...", () => {
+            Engine.QueueDialogue("Wind's voices", "You have been sleeping all day long...", () => {
                 Console.WriteLine("Continuing Dialogue");
             });
         }, 1.0f);
