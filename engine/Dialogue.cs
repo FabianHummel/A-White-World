@@ -35,10 +35,13 @@ public static partial class Engine {
         public bool HasOptions => Options.Length > 0;
     }
 
+    private const int MaxVisibleDialogueOptions = 2;
+
     private static readonly List<Dialogue> DialogueQueue = new();
     private static Dialogue _currentDialogue = null!;
     private static bool _dialogueOpen;
     private static int _selectedDialogueOption;
+    private static int _selectedDialogueOptionLocal;
     
     private static string _dialogueText = "";
     private static int _dialogueTextFrame;
@@ -66,25 +69,32 @@ public static partial class Engine {
     }
 
     private static void TryNextDialogue() {
-        if (!IsDialogueQueueEmpty()) {
-            _selectedDialogueOption = 0;
-            _currentDialogue = DialogueQueue[0];
-            DialogueQueue.RemoveAt(0);
-            _dialogueOpen = true;
-            _dialogueText = "";
-            _dialogueTextFrame = 0;
-        }
+        if (IsDialogueQueueEmpty()) return;
+        
+        _currentDialogue = DialogueQueue.Pop();
+        _selectedDialogueOption = 0;
+        _selectedDialogueOptionLocal = 0;
+        _dialogueOpen = true;
+        _dialogueText = "";
+        _dialogueTextFrame = 0;
     }
 
     private static void NextDialogueOption() {
-        _selectedDialogueOption = (_selectedDialogueOption + 1) % _currentDialogue.Options.Length;
-        PlayRandomSound("Cycle 1", "Cycle 2");
+        if (++_selectedDialogueOptionLocal > MaxVisibleDialogueOptions - 1)
+            _selectedDialogueOptionLocal = MaxVisibleDialogueOptions - 1;
+        if (++_selectedDialogueOption > _currentDialogue.Options.Length - 1)
+            _selectedDialogueOption = _currentDialogue.Options.Length - 1;
+        else
+            PlayRandomSound("Cycle 1", "Cycle 2");
     }
 
     private static void PreviousDialogueOption() {
-        _selectedDialogueOption = (_selectedDialogueOption - 1) % _currentDialogue.Options.Length;
-        if (_selectedDialogueOption < 0) _selectedDialogueOption = _currentDialogue.Options.Length - 1;
-        PlayRandomSound("Cycle 1", "Cycle 2");
+        if (--_selectedDialogueOptionLocal < 0)
+            _selectedDialogueOptionLocal = 0;
+        if (--_selectedDialogueOption < 0)
+            _selectedDialogueOption = 0;
+        else
+            PlayRandomSound("Cycle 1", "Cycle 2");
     }
 
     private static void InvokeSelectedDialogueOption() {
@@ -163,8 +173,8 @@ public static partial class Engine {
         ctx.CreatePane(0, -5, _dialogueBoxWidth, _dialogueBoxHeight, ctx => {
             if (HasDialogueOptions()) {
                 ctx.DrawTexture("Dialogue Box Options", 0, 0);
-                ctx.CreatePane(6, 6, (ctx.W - 12) * 0.68m, ctx.H - 12, DrawDialogueText);
-                ctx.CreatePane(3 + (ctx.W - 6) * 0.68m, 3, (ctx.W - 6) * 0.32m, ctx.H - 6, DrawDialogueOptions);
+                ctx.CreatePane(6, 6, ctx.W*0.69m - 12, ctx.H - 12, DrawDialogueText);
+                ctx.CreatePane(3 + ctx.W*0.66m, 6, ctx.W*0.33m - 4, ctx.H - 12, DrawDialogueOptions);
             } else {
                 ctx.DrawTexture("Dialogue Box", 0, 0);
                 ctx.CreatePane(6, 6, ctx.W - 12, ctx.H - 12, DrawDialogueText);
@@ -189,6 +199,16 @@ public static partial class Engine {
     }
     
     private static void DrawDialogueOptions(GuiContext ctx) {
-        // TODO: Make this not a mess
+        var heightSum = 0m;
+        var localOffset = ctx.H / 2 * (_selectedDialogueOption - _selectedDialogueOptionLocal);
+
+        for (var i = 0; i < _currentDialogue.Options.Length; i++) {
+            if (i >= _selectedDialogueOption - _selectedDialogueOptionLocal && i <= _selectedDialogueOption - _selectedDialogueOptionLocal + MaxVisibleDialogueOptions - 1) {
+                var option = _currentDialogue.Options[i];
+                var brokenText = option.Option.LineBreaks(MainFont, 5, (float) ctx.W);
+                ctx.DrawText(brokenText, 0, heightSum - localOffset, 5, _selectedDialogueOption == i ? Color.Black : Color.Gray);
+            }
+            heightSum += ctx.H / 2;
+        }
     }
 }

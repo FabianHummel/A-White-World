@@ -12,7 +12,9 @@ public class TestInteraction : Interactable {
         Engine.QueueDialogue("Box", "But not like any other box...");
         Engine.QueueDialogue("Box", "Who are you?", new[] {
             new Engine.DialogueOption("A lonely sailor", () => {
-                Engine.QueueDialogue("Box", "We could be friends! Then you wouldn't be so lonely anymore!");
+                Engine.QueueDialogue("Box", "We could be friends! Then you wouldn't be so lonely anymore!", new [] {
+                    new Engine.DialogueOption("No.", () => {})
+                });
             }),
             new Engine.DialogueOption("What is this place?", () => {
                 Engine.QueueDialogue("Box", "Oh, this is my home.");
